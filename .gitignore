@@ -1,0 +1,21 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild*/
+[Ll]ogs/
+UserSettings/
+[Mm]emoryCaptures/
+*.stacktrace
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
