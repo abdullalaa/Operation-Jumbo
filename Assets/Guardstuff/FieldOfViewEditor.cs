@@ -1,5 +1,5 @@
 /* 
- * Field of View shown during scene view
+ * Field of View shown during scene view when clicked on guard
  */
 
 using UnityEditor;
@@ -10,6 +10,7 @@ public class FieldOfViewEditor : Editor
 {
     private void OnSceneGUI()
     {
+        // Circle
         FieldOfView fov = (FieldOfView)target;
         Handles.color = Color.white;
         Handles.DrawWireArc(fov.transform.position, Vector3.up, Vector3.forward, 360, fov.radius);
@@ -17,16 +18,20 @@ public class FieldOfViewEditor : Editor
         Vector3 viewAngle01 = DirectionFromAngle(fov.transform.eulerAngles.y, -fov.angle / 2);
         Vector3 viewAngle02 = DirectionFromAngle(fov.transform.eulerAngles.y, fov.angle / 2);
 
+        // Yellow lines
         Handles.color = Color.yellow;
         Handles.DrawLine(fov.transform.position, fov.transform.position + viewAngle01 * fov.radius);
         Handles.DrawLine(fov.transform.position, fov.transform.position + viewAngle02 * fov.radius);
 
+        // Draw line from enemy to player
         if (fov.playerInFOV)
         {
             Handles.color = Color.green;
             Handles.DrawLine(fov.transform.position, fov.playerRef.transform.position);
         }
     }
+
+    // Something
     private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
     {
         angleInDegrees += eulerY;

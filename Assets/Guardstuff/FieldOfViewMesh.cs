@@ -1,6 +1,6 @@
 /* 
  * Create mesh for FOV, so it can be seen during game.
- * Added updateColor and transparency??
+ * Added updateColor
  */
 
 using UnityEngine;
@@ -9,9 +9,9 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class FieldOfViewMesh : MonoBehaviour
 {
-    public int meshResolution = 50;
-    public int edgeResolveIterations = 4;
-    public float edgeDstThreshold = 0.5f;
+    public int meshResolution = 50; // How many rays are cast across FOV (higher > smoother)
+    public int edgeResolveIterations = 4; // How many iterations used to refine edges of mesh, where obstruction is
+    public float edgeDstThreshold = 0.5f; // Minimum difference between rays to consider new edge (for smaller obstacles)
 
     private FieldOfView fov;
     private Mesh viewMesh;
@@ -20,11 +20,9 @@ public class FieldOfViewMesh : MonoBehaviour
 
     private Color currentColor;
 
-    void Awake()
+    void Start()
     {
         fov = GetComponentInParent<FieldOfView>();
-        if (fov == null)
-            Debug.LogError("No FieldOfView component found in parent objects.");
 
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
@@ -36,14 +34,13 @@ public class FieldOfViewMesh : MonoBehaviour
         currentColor = fov.baseColor;
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (fov == null) return;
-
         DrawFOVMesh();
         UpdateColor(fov.playerInFOV);
     }
 
+    // Transistion mesh colors based on whether player is detected
     void UpdateColor(bool playerSeen)
     {
         Color targetColor;
@@ -57,23 +54,29 @@ public class FieldOfViewMesh : MonoBehaviour
             targetColor = fov.baseColor;
         }
 
-        currentColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * fov.colorTransitionSpeed);
+        // Transistion over time
+        currentColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * fov.detectionTime);
         meshRenderer.material.color = currentColor;
     }
 
+    // Generate FOV Mesh with edge refinement instead of raycast
     void DrawFOVMesh()
     {
-        int stepCount = Mathf.RoundToInt(fov.angle * meshResolution / 360f);
-        float stepAngleSize = fov.angle / stepCount;
-        List<Vector3> viewPoints = new List<Vector3>();
+        // Calculate how many rays to cast based on angle and mesh resolution
+        int rayCount = Mathf.RoundToInt(fov.angle * meshResolution / 360f);
+        float rayAngleSize = fov.angle / rayCount;
 
+        // All points where rays hit or reach max distance
+        List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
 
-        for (int i = 0; i <= stepCount; i++)
+        // Cast rays across FOV
+        for (int i = 0; i <= rayCount; i++)
         {
-            float angle = transform.eulerAngles.y - fov.angle / 2 + stepAngleSize * i;
+            float angle = transform.eulerAngles.y - fov.angle / 2 + rayAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
+            // Edge refinement: if previous ray hit is different from current, refine edge
             if (i > 0)
             {
                 bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
@@ -89,21 +92,22 @@ public class FieldOfViewMesh : MonoBehaviour
             oldViewCast = newViewCast;
         }
 
+        // Calculate vertices and triangles for mesh
         int vertexCount = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[(vertexCount - 2) * 3];
 
-        // center of the mesh is at the empty
+        // Center of the mesh is at the empty
         vertices[0] = Vector3.zero;
 
+        // Convert world-space points into local space relative to FOV origin
         for (int i = 0; i < viewPoints.Count; i++)
         {
-            // flatten to the empty's Y level
-            Vector3 localPos = fov.transform.InverseTransformPoint(viewPoints[i]);
-            //Vector3 localPos = viewPoints[i] - transform.position;
+            Vector3 localPos = fov.transform.InverseTransformPoint(viewPoints[i]); // By using inversetransformpoint
             vertices[i + 1] = new Vector3(localPos.x, 0f, localPos.z);
         }
 
+        // Convert vertices to form triangles
         for (int i = 0; i < vertexCount - 2; i++)
         {
             triangles[i * 3] = 0;
@@ -111,27 +115,32 @@ public class FieldOfViewMesh : MonoBehaviour
             triangles[i * 3 + 2] = i + 2;
         }
 
+        // Update mesh with new vertices and triangles
         viewMesh.Clear();
         viewMesh.vertices = vertices;
         viewMesh.triangles = triangles;
-        viewMesh.RecalculateNormals();
+        viewMesh.RecalculateNormals(); // Correct lighting
     }
 
+    // Cast ray at angle to detect obstruction
     ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
 
+        // If ray hit obstacle return that point
         if (Physics.Raycast(fov.transform.position, dir, out hit, fov.radius, fov.obstructionLayer))
         {
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
+        // If ray does not hit return point at max radius
         else
         {
             return new ViewCastInfo(false, fov.transform.position + dir * fov.radius, fov.radius, globalAngle);
         }
     }
 
+    // Refine edge points between 2 rays
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
     {
         float minAngle = minViewCast.angle;
@@ -139,11 +148,13 @@ public class FieldOfViewMesh : MonoBehaviour
         Vector3 minPoint = Vector3.zero;
         Vector3 maxPoint = Vector3.zero;
 
+        // Cast new ray to narrow down exact edge point
         for (int i = 0; i < edgeResolveIterations; i++)
         {
             float angle = (minAngle + maxAngle) / 2;
             ViewCastInfo newViewCast = ViewCast(angle);
 
+            // Adjust angle range based on hit result
             bool edgeDstThresholdExceeded = Mathf.Abs(minViewCast.dst - newViewCast.dst) > edgeDstThreshold;
             if (newViewCast.hit == minViewCast.hit && !edgeDstThresholdExceeded)
             {
@@ -160,18 +171,20 @@ public class FieldOfViewMesh : MonoBehaviour
         return new EdgeInfo(minPoint, maxPoint);
     }
 
+    // Convert angle to 3D direction vector
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
         if (!angleIsGlobal) angleInDegrees += transform.eulerAngles.y;
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0f, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
 
+    // Struct to store raycast hit
     public struct ViewCastInfo
     {
-        public bool hit;
-        public Vector3 point;
-        public float dst;
-        public float angle;
+        public bool hit; // Did ray hit obstruction
+        public Vector3 point; // Position of hit or max radius
+        public float dst; // Distance from FOV origin to point
+        public float angle; // Angle at which ray was cast
 
         public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle)
         {
@@ -182,6 +195,7 @@ public class FieldOfViewMesh : MonoBehaviour
         }
     }
 
+    // Struct to store 2 points of an edge between rays
     public struct EdgeInfo
     {
         public Vector3 pointA;

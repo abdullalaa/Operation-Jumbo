@@ -4,16 +4,13 @@
  * https://medium.com/codex/creating-a-basic-field-of-vision-system-in-unity-c-718b58951cf6
  * https://www.youtube.com/watch?v=j1-OyLo77ss
  * https://www.youtube.com/watch?v=73Dc5JTCmKI&list=PLoLbLcSqUXwGPCsT3TFZ25i-Dj46NM1Hm&index=13
- * 
- * FOV obstruction layer = wall
-    player layer = Player
  */
 
-//attach to guard
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
@@ -23,8 +20,11 @@ public class FieldOfView : MonoBehaviour
     [Range(0, 360)]
     public float angle;
 
+    [Header("FOV Detection")]
+    public float detectionTime = 2f;
+    private float timer = 0f;
+
     [Header("FOV Color")]
-    public float colorTransitionSpeed = 2f;
     public Color baseColor = Color.white;
     public Color alertColor = Color.red;
 
@@ -36,6 +36,8 @@ public class FieldOfView : MonoBehaviour
     public GameObject playerRef;
     [HideInInspector]
     public bool playerInFOV;
+
+
 
     private void Start()
     {
@@ -57,39 +59,49 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
+    // Check if player is within FOV
     private void FieldOfViewCheck()
     {
         playerInFOV = false;
-        playerRef = null;
 
+        // Check within radius, and see what colliders are there
         Collider[] targetsInFOV = Physics.OverlapSphere(transform.position, radius);
 
         foreach (Collider c in targetsInFOV)
         {
-            // Check if the collider is on the Player layer mask
+            // Check if the collider is on the Player layer, otherwise skip it
             if ((playerLayer.value & (1 << c.gameObject.layer)) == 0)
+            {
                 continue;
+            }
 
-            // Use this collider's transform, not playerRef (which is still null)
             Vector3 directionToTarget = (c.transform.position - transform.position).normalized;
             float distanceToTarget = Vector3.Distance(transform.position, c.transform.position);
 
+            // Angle of FOV
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
-                // Check obstruction
+                // Check if there is no obstruction
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer))
                 {
                     playerInFOV = true;
                     playerRef = c.gameObject; // Store reference for editor visualization
-                    FOVPlayerRespawn.Instance.RespawnPlayer(playerRef); // Respawn player
-                    Debug.Log("Player seen");
-                    break; // Stop after first visible player
                 }
             }
+
+            // Timer starts if player in FOV, and resets when not
+            if (playerInFOV)
+            {
+                timer += Time.deltaTime;
+                //Debug.Log("Timer" + timer);
+                if (timer >= detectionTime)
+                {
+                    FOVPlayerRespawn.Instance.ShowRespawnMenu(playerRef); // Show respawn menu
+                    timer = 0f;
+                }
+            }
+
         }
-
-        //if (!playerInFOV)
-        //    Debug.Log("Player not seen");
     }
-
 }
+
