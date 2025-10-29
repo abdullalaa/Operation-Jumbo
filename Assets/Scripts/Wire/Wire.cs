@@ -111,7 +111,7 @@ public class Wire : MonoBehaviour
 
     private void GenerateSegments()
     {
-        JoinSegment(startTransform, null, true);
+        JoinSegment(startTransform, null, true, true);
         Transform prevTransform = startTransform;
 
         Vector3 dir = (endTransform.position - startTransform.position);
@@ -122,10 +122,12 @@ public class Wire : MonoBehaviour
             segment.transform.SetParent(segmentParent);
             segments[i] = segment.transform;
 
-            Vector3 pos = prevTransform.position + (dir / segmentCount);
+            Vector3 pos = (i == 0) ? prevTransform.position
+                : prevTransform.position + (dir / segmentCount);
+
             segment.transform.position = pos;
 
-            JoinSegment(segment.transform, prevTransform);
+            JoinSegment(segment.transform, prevTransform, false, i == 0);
             prevTransform = segment.transform;
         }
         JoinSegment(endTransform, prevTransform, true, true);
@@ -147,7 +149,7 @@ public class Wire : MonoBehaviour
         {
             SphereCollider sphereCollider = current.AddComponent<SphereCollider>();
             sphereCollider.radius = radius;
-            sphereCollider.isTrigger = true;
+            sphereCollider.isTrigger = false;
         }
 
         if (connectedTrans != null) {
@@ -160,10 +162,13 @@ public class Wire : MonoBehaviour
             joint.autoConfigureConnectedAnchor = false;
             if (isCloseConnected)
             {
-                joint.connectedAnchor = Vector3.forward * 0.1f;
+                //joint.connectedAnchor = Vector3.forward * 0.1f;
+                joint.autoConfigureConnectedAnchor=true;
+                joint.anchor = Vector3.zero;
             }
             else
             {
+                joint.autoConfigureConnectedAnchor = false;
                 joint.connectedAnchor = Vector3.forward * (totalLength / segmentCount);
             }
 
