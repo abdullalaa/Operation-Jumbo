@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8317652421398910579}
   - component: {fileID: 7399058407844528878}
   - component: {fileID: 430681533929213328}
-  - component: {fileID: 5977820670347911992}
+  - component: {fileID: 8402870853311159606}
   m_Layer: 0
   m_Name: FOV
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5977820670347911992
+--- !u!114 &8402870853311159606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6879789531602040077}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b57dad142aed6b84f9107d07bd1df03f, type: 3}
+  m_Script: {fileID: 11500000, guid: f6f8aaac400dd1740b5dbc18bf2c2c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   meshResolution: 50
@@ -115,8 +115,8 @@ GameObject:
   - component: {fileID: 5820557564323314842}
   - component: {fileID: 3431766464364031246}
   - component: {fileID: 892633360670324112}
-  - component: {fileID: 8815233625054408523}
-  - component: {fileID: 4148457445456802153}
+  - component: {fileID: 3748591786843733180}
+  - component: {fileID: 698068383004022843}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Agent
@@ -238,7 +238,7 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
---- !u!114 &8815233625054408523
+--- !u!114 &3748591786843733180
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,15 +247,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7245456143441979264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c4c404c2e8ef24296f053ec8050221, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bd705a71b5697b47b28626769b355c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 892633360670324112}
   endPoint: {fileID: 0}
   point1: {x: 0, y: 0, z: 0}
-  point2: {x: 7.68, y: 0.79, z: -6.33}
+  point2: {x: 0, y: 0, z: 0}
   waitDuration: 1
---- !u!114 &4148457445456802153
+--- !u!114 &698068383004022843
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,19 +264,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7245456143441979264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc2a248ec4a9c646abe16958ec92fba, type: 3}
+  m_Script: {fileID: 11500000, guid: 88f4f1912aced9e4a825b818bd9cf11b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
-  angle: 90
-  colorTransitionSpeed: 2
+  radius: 3
+  angle: 66
+  detectionTime: 2
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   alertColor: {r: 1, g: 0, b: 0, a: 1}
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   playerLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   playerRef: {fileID: 0}
   playerInFOV: 0
