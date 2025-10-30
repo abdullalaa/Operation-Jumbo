@@ -4,6 +4,8 @@ public class PlayerControl : MonoBehaviour
 {
     // Attach to player object
 
+    [SerializeField] Wire wire;
+
     public float speed = 10.0f;
     public float turnSpeed = 150.0f;
     private float horizontalInput;
@@ -11,8 +13,8 @@ public class PlayerControl : MonoBehaviour
     private bool verticalInput;
 
     private bool isLowEnough;
-    public float maxHeight = 5.0f;
-    public float floatForce = 50.0f;
+    public float maxHeight = 4.0f;
+    public float floatForce = 3.0f;
 
     private Rigidbody rb;
 
@@ -66,6 +68,31 @@ public class PlayerControl : MonoBehaviour
         //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
     }
 
+    private void FixedUpdate()
+    {
+        Vector3 move = new Vector3(horizontalInput, 0f, forwardInput) * speed;
+        Vector3 newPos = rb.position + move * Time.deltaTime;
+
+
+        if (wire != null)
+        {
+            Vector3 anchorPos = wire.startTransform.position;
+            float maxDis = wire.totalLength;
+
+            Vector3 dir = newPos - anchorPos;
+            float dist = dir.magnitude;
+
+            if (dist > maxDis)
+            {
+                dir = dir.normalized * maxDis;
+                newPos = anchorPos + dir;
+            }
+
+        }
+
+        rb.MovePosition(newPos);
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 7)
@@ -73,7 +100,7 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("collision");
             Vector3 direction = (other.transform.position - transform.position).normalized;
             float dot = Vector3.Dot(other.transform.up, direction);
-            if (dot < 0f)
+            if (dot > 0f)
             {
                 Debug.Log("front");
                 switch (other.gameObject.tag)
