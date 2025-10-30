@@ -3540,7 +3540,7 @@ GameObject:
   - component: {fileID: 401457595}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9543,7 +9543,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 4f6544b81a61fc04e859802f9b40bd7b, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: e2221a0e201380d4795d62fce8d1092e, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1129454356
 Transform:
@@ -12003,6 +12003,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 698068383004022843, guid: ee2c65e26ae6bb6498b08f253e106002, type: 3}
+      propertyPath: radius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 698068383004022843, guid: ee2c65e26ae6bb6498b08f253e106002, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 698068383004022843, guid: ee2c65e26ae6bb6498b08f253e106002, type: 3}
+      propertyPath: obstructionLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 892633360670324112, guid: ee2c65e26ae6bb6498b08f253e106002, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -12047,6 +12059,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3748591786843733180, guid: ee2c65e26ae6bb6498b08f253e106002, type: 3}
+      propertyPath: endPoint
+      value: 
+      objectReference: {fileID: 175598302}
     - target: {fileID: 7245456143441979264, guid: ee2c65e26ae6bb6498b08f253e106002, type: 3}
       propertyPath: m_Name
       value: Agent
