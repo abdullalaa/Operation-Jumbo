@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 892633360670324112}
   - component: {fileID: 3748591786843733180}
   - component: {fileID: 698068383004022843}
+  - component: {fileID: -2481326938277994662}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Agent
@@ -274,9 +275,21 @@ MonoBehaviour:
   alertColor: {r: 1, g: 0, b: 0, a: 1}
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   playerRef: {fileID: 0}
   playerInFOV: 0
+--- !u!114 &-2481326938277994662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7245456143441979264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3870bbe70a72a24c833c6ea224ebede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
