@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - Agent
+  - Small
+  - Medium
+  - Large
+  - Float
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - Water
   - UI
   - Wall
-  - 
+  - Gates
   - 
   - 
   - 
