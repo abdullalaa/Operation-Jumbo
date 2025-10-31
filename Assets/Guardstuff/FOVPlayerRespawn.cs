@@ -15,7 +15,7 @@ public class FOVPlayerRespawn : MonoBehaviour
 
     private GameObject playerToRespawn;
     private bool isMenuActive = false;
-
+    public bool gameOver = false;
     // Initialized necessary stuff
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class FOVPlayerRespawn : MonoBehaviour
     public void ShowRespawnMenu(GameObject player)
     {
         if (isMenuActive) return; // Prevent multiple calls
-
+        gameOver = true;
         playerToRespawn = player;
         respawnMenu.gameObject.SetActive(true);
         isMenuActive = true;
@@ -45,6 +45,7 @@ public class FOVPlayerRespawn : MonoBehaviour
         if (playerToRespawn != null)
         {
             RespawnPlayer(playerToRespawn);
+            gameOver = false;
         }
 
         respawnMenu.gameObject.SetActive(false);
