@@ -336,4 +336,31 @@ public class Wire : MonoBehaviour
 
         return Vector3.Distance(startTransform.position, endTransform.position);
     }
+
+    public float GetRealTotalLength()
+    {
+        if (segments == null || segments.Length == 0)
+        {
+            return 0f;
+        }
+        float length = 0f;
+
+        Transform prev = startTransform;
+
+        for (int i = 0; i < segments.Length; i++)
+        {
+            if (segments[i] != null)
+            {
+                length += Vector3.Distance(prev.position, segments[i].position);
+                prev = segments[i];
+            }
+        }
+
+        if (endTransform != null)
+        {
+            length += Vector3.Distance(prev.position, endTransform.position);
+        }
+
+        return length;
+    }
 }

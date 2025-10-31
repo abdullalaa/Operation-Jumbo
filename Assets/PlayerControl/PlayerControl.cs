@@ -116,7 +116,7 @@ public class PlayerControl : MonoBehaviour
         if (wire != null)
         {
             Vector3 anchorPos = wire.startTransform.position;
-            float maxDis = wire.totalLength;
+            float maxDis = wire.GetRealTotalLength();
 
             Vector3 dir = rb.position - anchorPos;
             float dist = dir.magnitude;
