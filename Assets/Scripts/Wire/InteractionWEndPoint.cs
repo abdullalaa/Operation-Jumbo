@@ -11,15 +11,17 @@ public class InteractionWEndPoint : MonoBehaviour
     // check using script instead of tag
     private PlugEndPoint currentEndPoint;
     private bool canPress = false;
-    private bool isConnected = false;
+    public bool isConnected = false;
 
 
     void Update()
     {
         if(canPress && Input.GetKeyDown(KeyCode.F))
         {
-            if(wireEnd != null && currentEndPoint != null)
+            Debug.Log("Attempting to connect wire to endpoint.");
+            if (wireEnd != null && currentEndPoint != null)
             {
+                Debug.Log("Wire connected to endpoint.");
                 // if these conditions is satisfied, change wireEnd position
                 wireEnd.position = currentEndPoint.transform.position;
                 isConnected = true;

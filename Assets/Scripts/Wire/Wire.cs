@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class Wire : MonoBehaviour
 {
+    [SerializeField] GameObject player;
+    
     [Header("Anchor Settings")]
     [SerializeField] public Transform startTransform;
     [SerializeField] Transform endTransform;
     [SerializeField] int segmentCount = 10;
-    [SerializeField] public float totalLength = 10f;
+    [SerializeField] public float totalLength = 40f;
 
     [SerializeField] float radius = 0.5f;
     [SerializeField] int sides = 4;
@@ -41,6 +43,11 @@ public class Wire : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (!player.GetComponent<InteractionWEndPoint>().isConnected)
+        {
+            endTransform.position = player.transform.position + new Vector3(1f, 0, 0);
+        }
+
         vertices = new Vector3[segmentCount * sides * 3];
         GenerateMesh();
 
@@ -54,6 +61,11 @@ public class Wire : MonoBehaviour
 
     void Update()
     {
+        if (!player.GetComponent<InteractionWEndPoint>().isConnected)
+        {
+            endTransform.position = player.transform.position + new Vector3(0f, 0, 0);
+        }
+
         if (prevSegmentCount != segmentCount)
         {
             RemoveSegments();
@@ -84,7 +96,8 @@ public class Wire : MonoBehaviour
 
         prevRadius = radius;
 
-        if (segments != null && segments.Length > 1 && lineRenderer != null) {
+        if (segments != null && segments.Length > 1 && lineRenderer != null)
+        {
             var validSegs = segments.Where(s => s != null).ToList();
             lineRenderer.positionCount = validSegs.Count;
             for (int i = 0; i < validSegs.Count; i++)
@@ -152,18 +165,19 @@ public class Wire : MonoBehaviour
             sphereCollider.isTrigger = false;
         }
 
-        if (connectedTrans != null) {
-            ConfigurableJoint joint = current.GetComponent<ConfigurableJoint>();
+        if (connectedTrans != null)
+        {
+            SpringJoint joint = current.GetComponent<SpringJoint>();
             if (joint == null)
             {
-                joint = current.AddComponent<ConfigurableJoint>();
+                joint = current.AddComponent<SpringJoint>();
             }
             joint.connectedBody = connectedTrans.GetComponent<Rigidbody>();
             joint.autoConfigureConnectedAnchor = false;
             if (isCloseConnected)
             {
                 //joint.connectedAnchor = Vector3.forward * 0.1f;
-                joint.autoConfigureConnectedAnchor=true;
+                joint.autoConfigureConnectedAnchor = true;
                 joint.anchor = Vector3.zero;
             }
             else
@@ -172,23 +186,23 @@ public class Wire : MonoBehaviour
                 joint.connectedAnchor = Vector3.forward * (totalLength / segmentCount);
             }
 
-            joint.xMotion = ConfigurableJointMotion.Locked;
-            joint.yMotion = ConfigurableJointMotion.Locked;
-            joint.zMotion = ConfigurableJointMotion.Locked;
+            //joint.xMotion = ConfigurableJointMotion.Locked;
+            //joint.yMotion = ConfigurableJointMotion.Locked;
+            //joint.zMotion = ConfigurableJointMotion.Locked;
 
-            joint.angularXMotion = ConfigurableJointMotion.Free;
-            joint.angularYMotion = ConfigurableJointMotion.Free;
-            joint.angularZMotion = ConfigurableJointMotion.Limited;
+            //joint.angularXMotion = ConfigurableJointMotion.Free;
+            //joint.angularYMotion = ConfigurableJointMotion.Free;
+            //joint.angularZMotion = ConfigurableJointMotion.Limited;
 
-            SoftJointLimit softJointLimit = new SoftJointLimit();
-            softJointLimit.limit = 0;
-            joint.angularZLimit = softJointLimit;
+            //SoftJointLimit softJointLimit = new SoftJointLimit();
+            //softJointLimit.limit = 0;
+            //joint.angularZLimit = softJointLimit;
 
-            JointDrive jointDrive = new JointDrive();
-            jointDrive.positionDamper = 0;
-            jointDrive.positionSpring = 0;
-            joint.angularXDrive = jointDrive;
-            joint.angularYZDrive = jointDrive;
+            //JointDrive jointDrive = new JointDrive();
+            //jointDrive.positionDamper = 0;
+            //jointDrive.positionSpring = 0;
+            //joint.angularXDrive = jointDrive;
+            //joint.angularYZDrive = jointDrive;
 
 
         }
@@ -265,7 +279,8 @@ public class Wire : MonoBehaviour
     private void SetRadiusOnSegment(Transform segment, float radius)
     {
         SphereCollider sphereCollider = transform.GetComponent<SphereCollider>();
-        if (sphereCollider != null) {
+        if (sphereCollider != null)
+        {
             sphereCollider.radius = radius;
         }
 

@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 dir = newPos - anchorPos;
             float dist = dir.magnitude;
 
-            if(dist > maxDis)
+            if (dist > maxDis)
             {
                 dir = dir.normalized * maxDis;
                 newPos = anchorPos + dir;

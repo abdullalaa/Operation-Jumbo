@@ -12,4 +12,13 @@ public class KnockOutGuards : MonoBehaviour
 
 
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Large"))
+        {
+            Destroy(gameObject);
+            Debug.Log("Knocked Out " + gameObject.name);
+        }
+    }
 }

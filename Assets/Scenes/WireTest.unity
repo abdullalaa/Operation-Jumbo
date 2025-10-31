@@ -926,7 +926,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
@@ -1585,9 +1585,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92abeeafa1b160446b940ddf077699ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 594583759}
   startTransform: {fileID: 479078992}
   endTransform: {fileID: 1729948889}
-  segmentCount: 30
+  segmentCount: 5
   totalLength: 10
   radius: 0.5
   sides: 4

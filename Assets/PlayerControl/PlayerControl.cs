@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour
     private float horizontalInput;
     private float forwardInput;
     private bool verticalInput;
+    private float sideInput;
 
     private bool isLowEnough;
     public float maxHeight = 4.0f;
@@ -20,23 +21,32 @@ public class PlayerControl : MonoBehaviour
 
     private bool floating = false;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        rb.isKinematic = false;
+
         //horizontalInput = Input.GetAxis("Horizontal");
         horizontalInput = Input.GetAxis("Mouse X");
         forwardInput = Input.GetAxis("Vertical");
         verticalInput = Input.GetKey(KeyCode.Space);
+        sideInput = Input.GetAxis("Horizontal");
 
         if (floating)
         {
-            rb.AddForce(transform.forward * forwardInput * 0.1f, ForceMode.Impulse);
+            //rb.isKinematic = false;
+            //rb.angularVelocity = Vector3.zero;
+            //rb.angularVelocity = Vector3.zero;
+            rb.AddForce(transform.forward * (forwardInput / 20), ForceMode.Impulse);
+            rb.AddForce(transform.right * (sideInput / 20), ForceMode.Impulse);
 
             isLowEnough = transform.position.y < maxHeight;
 
@@ -50,47 +60,73 @@ public class PlayerControl : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, maxHeight, transform.position.z);
                 rb.AddForce(Vector3.down * 0.5f, ForceMode.Impulse);
-            } 
-            
-            else if (transform.position.y < 2)
+            }
+
+            else if (transform.position.y < 1)
             {
-                transform.position = new Vector3(transform.position.x, 2.0f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
                 rb.AddForce(Vector3.up * 0.5f, ForceMode.Impulse);
             }
+
         }
+        //else if (!floating && !rb.isKinematic)
+        //{
+        //    //rb.isKinematic = true;
+        //}
         else
         {
-            // Move the character forward based on vertical input
             transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
+            transform.Translate(Vector3.right * Time.deltaTime * speed * sideInput);
+
         }
+
         // Rotates the character based on horizontal input (mouse movement)
         transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+
+        if (!floating)
+        {
+            // Move the character forward based on vertical input
+
+        }
+
         //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
     }
 
     private void FixedUpdate()
     {
-        Vector3 move = new Vector3(horizontalInput, 0f, forwardInput) * speed;
-        Vector3 newPos = rb.position + move * Time.deltaTime;
 
+        if (floating && !rb.isKinematic)
+        {
+            
+
+        }
 
         if (wire != null)
         {
             Vector3 anchorPos = wire.startTransform.position;
             float maxDis = wire.totalLength;
 
-            Vector3 dir = newPos - anchorPos;
+            Vector3 dir = rb.position - anchorPos;
             float dist = dir.magnitude;
 
             if (dist > maxDis)
             {
                 dir = dir.normalized * maxDis;
-                newPos = anchorPos + dir;
+                Vector3 newPos = anchorPos + dir;
+
+                if (rb.isKinematic)
+                {
+                    transform.position = newPos;
+                }
+                else
+                {
+                    rb.MovePosition(newPos);
+                }
             }
 
         }
 
-        rb.MovePosition(newPos);
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -98,9 +134,9 @@ public class PlayerControl : MonoBehaviour
         if (other.gameObject.layer == 7)
         {
             Debug.Log("collision");
-            Vector3 direction = (other.transform.position - transform.position).normalized;
+            Vector3 direction = (transform.position - other.transform.position).normalized;
             float dot = Vector3.Dot(other.transform.up, direction);
-            if (dot > 0f)
+            if (dot < 0f)
             {
                 Debug.Log("front");
                 switch (other.gameObject.tag)
@@ -133,7 +169,7 @@ public class PlayerControl : MonoBehaviour
                         Debug.Log("f");
                         floating = true;
                         gameObject.tag = "Float";
-                        gameObject.transform.localScale = Vector3.one; 
+                        gameObject.transform.localScale = Vector3.one;
                         gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
                         speed = 10.0f;
                         break;
