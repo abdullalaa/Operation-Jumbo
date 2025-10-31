@@ -6,7 +6,8 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] Wire wire;
 
-    public float speed = 10.0f;
+    public float avgSpeed = 10.0f;
+    private float speed = 10.0f;
     public float turnSpeed = 150.0f;
     private float horizontalInput;
     private float forwardInput;
@@ -158,7 +159,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.tag = "Small";
                         gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                         gameObject.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
-                        speed = 15.0f;
+                        speed = 1.5f * avgSpeed;
                         break;
                     case "Medium":
                         Debug.Log("m");
@@ -166,7 +167,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.tag = "Medium";
                         gameObject.transform.localScale = Vector3.one;
                         gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-                        speed = 10.0f;
+                        speed = avgSpeed;
                         break;
                     case "Large":
                         Debug.Log("l");
@@ -174,7 +175,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.tag = "Large";
                         gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
                         gameObject.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
-                        speed = 5.0f;
+                        speed = 0.5f * avgSpeed;
                         break;
                     case "Float":
                         Debug.Log("f");
@@ -182,7 +183,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.tag = "Float";
                         gameObject.transform.localScale = Vector3.one;
                         gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
-                        speed = 10.0f;
+                        speed = avgSpeed;
                         break;
                     default:
                         break;
