@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour
     private float forwardInput;
     private bool verticalInput;
     private float sideInput;
+    public bool mouseToTurn = true;
 
     private bool isLowEnough;
     public float maxHeight = 4.0f;
@@ -35,7 +36,18 @@ public class PlayerControl : MonoBehaviour
         rb.isKinematic = false;
 
         //horizontalInput = Input.GetAxis("Horizontal");
-        horizontalInput = Input.GetAxis("Mouse X");
+        if (mouseToTurn)
+        {
+            horizontalInput = Input.GetAxis("Mouse X");
+            // Rotates the character based on horizontal input (mouse movement)
+            transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+            transform.Rotate(0, -90, 0);
+        }
         forwardInput = Input.GetAxis("Vertical");
         verticalInput = Input.GetKey(KeyCode.Space);
         sideInput = Input.GetAxis("Horizontal");
@@ -62,9 +74,9 @@ public class PlayerControl : MonoBehaviour
                 rb.AddForce(Vector3.down * 0.5f, ForceMode.Impulse);
             }
 
-            else if (transform.position.y < 1)
+            else if (transform.position.y < 1.5)
             {
-                transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
+                transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
                 rb.AddForce(Vector3.up * 0.5f, ForceMode.Impulse);
             }
 
@@ -80,8 +92,7 @@ public class PlayerControl : MonoBehaviour
 
         }
 
-        // Rotates the character based on horizontal input (mouse movement)
-        transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+        
 
         if (!floating)
         {

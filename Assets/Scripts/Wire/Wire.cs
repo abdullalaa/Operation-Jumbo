@@ -63,7 +63,7 @@ public class Wire : MonoBehaviour
     {
         if (!player.GetComponent<InteractionWEndPoint>().isConnected)
         {
-            endTransform.position = player.transform.position + new Vector3(0f, 0, 0);
+            endTransform.position = player.transform.position + new Vector3(0.5f, 0, 0);
         }
 
         if (prevSegmentCount != segmentCount)
