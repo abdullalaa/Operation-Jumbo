@@ -754,7 +754,7 @@ Transform:
   m_GameObject: {fileID: 125126578}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5, y: -21.04268, z: 6.7}
+  m_LocalPosition: {x: 28.28, y: 0.8, z: 14.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19243,12 +19243,20 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
+      propertyPath: avgSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: maxHeight
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: floatForce
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
+      propertyPath: mouseToTurn
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5096672017406636346, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
