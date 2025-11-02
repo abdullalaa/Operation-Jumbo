@@ -8,34 +8,38 @@ public class InteractionWEndPoint : MonoBehaviour
     [SerializeField] Transform wireEnd;
 
     
-
     // check using script instead of tag
     private PlugEndPoint currentEndPoint;
+    // check player is inside trigger range and able to press F
     private bool canPress = false;
+    // check wire is already connected or not
     public bool isConnected = false;
+    // reference to GameManager
     private GameManager gm;
-
-    void Awake()
-    {
-        gm = GameManager.instance;
-    }
 
 
     void Update()
     {
-        if(canPress && Input.GetKeyDown(KeyCode.F))
+        // find GameManager reference first
+        if (gm == null) gm = gm ?? GameManager.instance;
+
+        // player presses F to connect wire to endpoint
+        if (canPress && Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Attempting to connect wire to endpoint.");
             if (wireEnd != null && currentEndPoint != null)
             {
-                Debug.Log("Wire connected to endpoint.");
                 // if these conditions is satisfied, change wireEnd position
                 wireEnd.position = currentEndPoint.transform.position;
                 isConnected = true;
+                Debug.Log("Wire connected to endpoint.");
+
+                // notify GameManager
                 if (gm != null) { gm.OnWireConnected(); }
             }
         }
 
+        // after conencted keep wireEnd position fixed to endpoint
         if(isConnected && wireEnd != null && currentEndPoint != null)
         {
             wireEnd.position = currentEndPoint.transform.position;

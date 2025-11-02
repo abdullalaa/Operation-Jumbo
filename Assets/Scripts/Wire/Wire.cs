@@ -1,7 +1,16 @@
-using NUnit.Framework.Constraints;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+
+/*
+Based reference from YouTube tutorial:
+"Create Rope/Wire in Unity, Tutorial - From game idea to Steam - ep10"
+by channel: Little Red Cabin
+https://youtu.be/8rI1D1YQmhM?si=sxl-5a_LsNhwj4gN
+
+This code is not a copy paste.
+The original idea was sued as a base, but this version is modified for my own game logic
+ */
 
 
 public class Wire : MonoBehaviour
@@ -9,48 +18,62 @@ public class Wire : MonoBehaviour
     [SerializeField] GameObject player;
     
     [Header("Anchor Settings")]
+    // start point of wire
     [SerializeField] public Transform startTransform;
+    // end point of wire
     [SerializeField] Transform endTransform;
+    // number of rope segments
+    // more segments = smoother rope
     [SerializeField] int segmentCount = 10;
     [SerializeField] public float totalLength = 40f;
 
+    // thickness/size of each segment
     [SerializeField] float radius = 0.5f;
-    [SerializeField] int sides = 4;
 
     [Header("Physics Settings")]
+    // weight of the entire wire
     [SerializeField] float totalWeight = 10f;
+    // lnear drag applied to each rigidbody segment
     [SerializeField] float drag = 1f;
+    // angular drag applied to each rigidbody segment
     [SerializeField] float angularDrag = 1f;
-
+    // if true
+    // segments have collider & interact w world physics
     [SerializeField] bool usePhysics = false;
 
     [Header("Segment Settings")]
+    // list of all segment Transforms created at runtime
     public Transform[] segments;
+    // parent object where all segments are stored in hierarchy
     [SerializeField] Transform segmentParent;
 
+
+    // used to detect inspector changes(rebuild rope)
+    // previous value
     private int prevSegmentCount;
+    // previous length
     private float prevTotalLength;
+    // previous drag value
     private float prevDrag;
+    // previous weight
     private float prevTotalWeight;
+    // previous angular drag
     private float prevAngularDrag;
+    // previous radius
     private float prevRadius;
 
-    private Vector3[] vertices;
-    private int[,] vertexIndicesMap;
-
+    // line renderer used use to visually draw the rope path
     private LineRenderer lineRenderer;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+        void Start()
     {
+        // set default end position before game start
         if (!player.GetComponent<InteractionWEndPoint>().isConnected)
         {
             endTransform.position = player.transform.position + new Vector3(1f, 0, 0);
         }
 
-        vertices = new Vector3[segmentCount * sides * 3];
-        GenerateMesh();
-
+        // initialize line renderer 
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.positionCount = segmentCount;
         lineRenderer.widthMultiplier = radius * 0.5f;
@@ -59,6 +82,8 @@ public class Wire : MonoBehaviour
         lineRenderer.endColor = Color.blue;
     }
 
+    // constantly rebuild / redraw wire
+    // if inspector vaules changed during play mode
     void Update()
     {
         if (!player.GetComponent<InteractionWEndPoint>().isConnected)
@@ -71,13 +96,12 @@ public class Wire : MonoBehaviour
             RemoveSegments();
             segments = new Transform[segmentCount];
             GenerateSegments();
-            GenerateMesh();
+            
         }
 
         if (totalLength != prevTotalLength || prevDrag != drag || prevTotalWeight != totalWeight || prevAngularDrag != angularDrag)
         {
             UpdateWire();
-            GenerateMesh();
 
         }
 
@@ -91,7 +115,7 @@ public class Wire : MonoBehaviour
         {
 
             UpdateRadius();
-            GenerateMesh();
+            
         }
 
         prevRadius = radius;
@@ -109,20 +133,8 @@ public class Wire : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos()
-    {
-        if(segments == null || vertices == null) return;
-        for (int i = 0; i < segments.Length; i++)
-        {
-            Gizmos.DrawWireSphere(segments[i].position, radius);
-        }
-
-        for (int i = 0; i < vertices.Length; i++)
-        {
-            Gizmos.DrawSphere(vertices[i], 0.1f);
-        }
-    }
-
+    // create segment objects between start and end
+    // and connect them with spring joints
     private void GenerateSegments()
     {
         JoinSegment(startTransform, null, true, true);
@@ -148,6 +160,8 @@ public class Wire : MonoBehaviour
 
     }
 
+    // attach rigidbody and spring joint to this segment
+    // connect to previous one
     private void JoinSegment(Transform current, Transform connectedTrans, bool isKinetic = false, bool isCloseConnected = false)
     {
         if (current.GetComponent<Rigidbody>() == null)
@@ -177,7 +191,6 @@ public class Wire : MonoBehaviour
             joint.autoConfigureConnectedAnchor = false;
             if (isCloseConnected)
             {
-                //joint.connectedAnchor = Vector3.forward * 0.1f;
                 joint.autoConfigureConnectedAnchor = true;
                 joint.anchor = Vector3.zero;
             }
@@ -186,32 +199,10 @@ public class Wire : MonoBehaviour
                 joint.autoConfigureConnectedAnchor = false;
                 joint.connectedAnchor = Vector3.forward * (totalLength / segmentCount);
             }
-
-            //joint.xMotion = ConfigurableJointMotion.Locked;
-            //joint.yMotion = ConfigurableJointMotion.Locked;
-            //joint.zMotion = ConfigurableJointMotion.Locked;
-
-            //joint.angularXMotion = ConfigurableJointMotion.Free;
-            //joint.angularYMotion = ConfigurableJointMotion.Free;
-            //joint.angularZMotion = ConfigurableJointMotion.Limited;
-
-            //SoftJointLimit softJointLimit = new SoftJointLimit();
-            //softJointLimit.limit = 0;
-            //joint.angularZLimit = softJointLimit;
-
-            //JointDrive jointDrive = new JointDrive();
-            //jointDrive.positionDamper = 0;
-            //jointDrive.positionSpring = 0;
-            //joint.angularXDrive = jointDrive;
-            //joint.angularYZDrive = jointDrive;
-
-
         }
     }
 
-    // Update is called once per frame
-
-
+    // udate segment collider radius when changed in inspector
     private void UpdateRadius()
     {
         for (int i = 0; i < segments.Length; i++)
@@ -220,62 +211,6 @@ public class Wire : MonoBehaviour
         }
     }
 
-    private void GenerateVertices()
-    {
-
-        for (int i = 0; i < segments.Length; i++)
-        {
-            GenerateCircleVerticles(segments[i], i);
-        }
-    }
-
-    private void GenerateCircleVerticles(Transform segTrans, int segmentIndex)
-    {
-        float angleDiff = 360 / sides;
-
-        Quaternion diffRotation = Quaternion.FromToRotation(Vector3.forward, segTrans.forward);
-        for (int sideIndex = 0; sideIndex < sides; sideIndex++)
-        {
-            float angleInRad = sideIndex * angleDiff * Mathf.Deg2Rad;
-            float x = -1 * radius * Mathf.Cos(angleInRad);
-            float y = radius * Mathf.Sin(angleInRad);
-
-            Vector3 pointOffset = new(x, y, 0);
-            Vector3 pointRotated = diffRotation * pointOffset;
-
-            // vertical position
-            Vector3 pointRotatedAtCenterOfTransform = segTrans.position + pointRotated;
-
-            int vertexIndex = segmentIndex * sides + sideIndex;
-            vertices[vertexIndex] = pointRotatedAtCenterOfTransform;
-
-        }
-    }
-    void updateMMesh()
-    {
-        GenerateVertices();
-    }
-
-    void GenerateMesh()
-    {
-        GenerateIndicesMap();
-        GenerateVertices();
-
-    }
-
-    private void GenerateIndicesMap()
-    {
-        vertexIndicesMap = new int[segmentCount + 1, sides + 1];
-        int meshVertexIndex = 0;
-        for (int segIndex = 0; segIndex < segmentCount; segIndex++)
-        {
-            for (int sideIndex = 0; sideIndex < sides; sideIndex++)
-            {
-                vertexIndicesMap[segIndex, sideIndex] = meshVertexIndex;
-                meshVertexIndex++;
-            }
-        }
-    }
 
     private void SetRadiusOnSegment(Transform segment, float radius)
     {
@@ -287,6 +222,7 @@ public class Wire : MonoBehaviour
 
     }
 
+    // apply new length / weight / drag values to each rope segment
     private void UpdateWire()
     {
         for (int i = 0; i < segments.Length; i++)
@@ -294,13 +230,14 @@ public class Wire : MonoBehaviour
 
             if (i != 0)
             {
-                UpdateLenghtOnSegment(segments[i], totalLength / segmentCount);
+                UpdateLenghtOnSegment(segments[i]);
             }
             UpdateWeightOnSegment(segments[i], totalWeight, drag, angularDrag);
         }
     }
 
-    private void UpdateLenghtOnSegment(Transform transform, float y)
+    // update joint anchor based on total rope length and segment count
+    private void UpdateLenghtOnSegment(Transform transform)
     {
         ConfigurableJoint joint = transform.GetComponent<ConfigurableJoint>();
         if (joint != null)
@@ -308,6 +245,8 @@ public class Wire : MonoBehaviour
             joint.connectedAnchor = Vector3.forward * totalLength / segmentCount;
         }
     }
+
+    // aply mass and drag settings to this segment rigidbody
 
     private void UpdateWeightOnSegment(Transform transform, float totalWeight, float drag, float angularDrag)
     {
@@ -317,6 +256,7 @@ public class Wire : MonoBehaviour
         rb.angularDamping = angularDrag;
     }
 
+    // destroy all old segments before creating new ones
     private void RemoveSegments()
     {
         for (int i = 0; i < segments.Length; i++)
@@ -327,17 +267,8 @@ public class Wire : MonoBehaviour
             }
         }
     }
-
-    public float GetCurrentLength()
-    {
-        if (startTransform == null || endTransform == null)
-        {
-            return 0f;
-        }
-
-        return Vector3.Distance(startTransform.position, endTransform.position);
-    }
-
+    
+    // return total length measured across every segment from start to end
     public float GetRealTotalLength()
     {
         if (segments == null || segments.Length == 0)

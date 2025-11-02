@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //singletone pattern
+    //singletone instance for global access
     public static GameManager instance;
 
     [Header ("Hint Message")]
@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Gameplay Reference")]
     [SerializeField] Transform player;
+    // reference to wire system
     [SerializeField] Wire wire;
 
     void Awake()
     {
+        // assign global instance
         instance = this;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,11 +25,15 @@ public class GameManager : MonoBehaviour
         
     }
 
+
+    // physics update
     void FixedUpdate()
     {
+        // it uses Rigidbody movement
         LimitPlayerByWire();
     }
 
+    // prevent the player form moving further than the total wire length
     void LimitPlayerByWire()
     {
         if (wire == null || player == null) return;
@@ -61,10 +67,13 @@ public class GameManager : MonoBehaviour
         
     }
 
+    // called when wire successfully connects to endpoint
     public void OnWireConnected()
     {
         Debug.Log("Wire Connected!");
     }
+
+    // show or hide "Press F Key" UI hint for endpoint
     public void ShowHint(bool isShow)
     {
         endPointMSG.SetActive(isShow);
