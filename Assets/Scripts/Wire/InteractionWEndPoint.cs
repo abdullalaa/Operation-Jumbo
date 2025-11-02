@@ -68,4 +68,11 @@ public class InteractionWEndPoint : MonoBehaviour
             gm.ShowHint(false);
         }
     }
+
+    public void ResetConnection()
+    {
+        isConnected = false;
+        currentEndPoint = null;
+        canPress = false;
+    }
 }

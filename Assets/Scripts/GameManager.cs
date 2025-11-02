@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform player;
     // reference to wire system
     [SerializeField] Wire wire;
+    [SerializeField] InteractionWEndPoint interact;
 
     void Awake()
     {
@@ -25,6 +26,11 @@ public class GameManager : MonoBehaviour
         
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     // physics update
     void FixedUpdate()
@@ -61,10 +67,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ResetLevel()
     {
-        
+        if(wire != null) wire.ResetWire();
+        if(interact != null) interact.ResetConnection();
+
+        Debug.Log("Level reset done");
     }
 
     // called when wire successfully connects to endpoint

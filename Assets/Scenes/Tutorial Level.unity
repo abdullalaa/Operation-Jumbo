@@ -744,6 +744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnMenu: {fileID: 1520883000}
   respawnButton: {fileID: 951107529}
+  wire: {fileID: 1969194409}
   gameOver: 0
 --- !u!4 &125126580
 Transform:
@@ -1986,6 +1987,7 @@ MonoBehaviour:
   endPointMSG: {fileID: 1056707272}
   player: {fileID: 1482175816}
   wire: {fileID: 1969194409}
+  interact: {fileID: 1482175817}
 --- !u!4 &196231053
 Transform:
   m_ObjectHideFlags: 0
@@ -14172,6 +14174,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5372335102560062357, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
   m_PrefabInstance: {fileID: 5718237207066418941}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1482175817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6184721210183683832, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
+  m_PrefabInstance: {fileID: 5718237207066418941}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482175809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829ef56f74d5084b8f03a4d0f7d697a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1500720356
 GameObject:
   m_ObjectHideFlags: 0

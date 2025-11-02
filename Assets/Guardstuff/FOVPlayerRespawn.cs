@@ -13,9 +13,17 @@ public class FOVPlayerRespawn : MonoBehaviour
     public Canvas respawnMenu;        // Assign in Inspector
     public Button respawnButton;      // Assign in Inspector
 
+    [Header("Wire References")]
+    // assign wire in inspector
+    [SerializeField] Wire wire;
+
     private GameObject playerToRespawn;
     private bool isMenuActive = false;
     public bool gameOver = false;
+
+    // reference to GameManager
+    private GameManager gm;
+
     // Initialized necessary stuff
     private void Awake()
     {
@@ -26,6 +34,11 @@ public class FOVPlayerRespawn : MonoBehaviour
 
         if (respawnButton != null)
             respawnButton.onClick.AddListener(OnRespawnButtonClicked);
+    }
+
+    void Update()
+    {
+
     }
 
     // Called when player is spotted
@@ -57,6 +70,14 @@ public class FOVPlayerRespawn : MonoBehaviour
     {
         player.transform.position = transform.position;
         player.transform.rotation = transform.rotation;
+
+        // find GameManager reference first
+        if (gm == null) gm = GameManager.instance;
+
+        // tell GameMager to do reset tasks
+        if (gm != null) gm.ResetLevel();
+        else Debug.LogWarning("GameManager can't find!");
+
     }
 
     // Draw sphere around empty to show where spawn point is

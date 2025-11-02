@@ -82,6 +82,8 @@ public class Wire : MonoBehaviour
         lineRenderer.endColor = Color.blue;
     }
 
+
+
     // constantly rebuild / redraw wire
     // if inspector vaules changed during play mode
     void Update()
@@ -132,6 +134,15 @@ public class Wire : MonoBehaviour
         }
 
     }
+
+    public void ResetWire()
+    {
+        RemoveSegments();
+        segments = new Transform[segmentCount];
+        GenerateSegments();
+
+    }
+
 
     // create segment objects between start and end
     // and connect them with spring joints
