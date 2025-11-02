@@ -43,7 +43,7 @@ public class AgentController : MonoBehaviour
                 waitTimer = 0;
                 enemy.destination = point2;
             }
-            Debug.Log("looking for point2");
+            //Debug.Log("looking for point2");
         }
         //if enemy is at point 2 set destination to point 1 after waiting for waitDuration (seconds)
         else if (enemy.transform.position.x == point2.x && enemy.transform.position.z == point2.z)
@@ -54,7 +54,7 @@ public class AgentController : MonoBehaviour
                 waitTimer = 0;
                 enemy.destination = point1;
             }
-            Debug.Log("looking for point1");
+            //Debug.Log("looking for point1");
         }
         
 

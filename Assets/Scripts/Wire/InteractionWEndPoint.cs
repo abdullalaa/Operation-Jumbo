@@ -6,12 +6,19 @@ public class InteractionWEndPoint : MonoBehaviour
 {
     [Header("Wire Interaction Settings")]
     [SerializeField] Transform wireEnd;
-    [SerializeField] GameObject alertMessage;
+
+    
 
     // check using script instead of tag
     private PlugEndPoint currentEndPoint;
     private bool canPress = false;
     public bool isConnected = false;
+    private GameManager gm;
+
+    void Awake()
+    {
+        gm = GameManager.instance;
+    }
 
 
     void Update()
@@ -25,6 +32,7 @@ public class InteractionWEndPoint : MonoBehaviour
                 // if these conditions is satisfied, change wireEnd position
                 wireEnd.position = currentEndPoint.transform.position;
                 isConnected = true;
+                if (gm != null) { gm.OnWireConnected(); }
             }
         }
 
@@ -41,7 +49,7 @@ public class InteractionWEndPoint : MonoBehaviour
         if (endpoint != null) { 
             canPress = true;
             currentEndPoint = endpoint;
-            alertMessage.SetActive(true);
+            gm.ShowHint(true);
         }
     }
 
@@ -53,7 +61,7 @@ public class InteractionWEndPoint : MonoBehaviour
         {
             canPress = false;
             currentEndPoint = null;
-            alertMessage.SetActive(false);
+            gm.ShowHint(false);
         }
     }
 }
