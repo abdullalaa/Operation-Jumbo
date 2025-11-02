@@ -111,6 +111,7 @@ public class Wire : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if(segments == null || vertices == null) return;
         for (int i = 0; i < segments.Length; i++)
         {
             Gizmos.DrawWireSphere(segments[i].position, radius);
