@@ -294,10 +294,10 @@ MonoBehaviour:
   alertColor: {r: 1, g: 0, b: 0, a: 1}
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   playerRef: {fileID: 0}
   playerInFOV: 0
 --- !u!4 &4573410573758538160 stripped
