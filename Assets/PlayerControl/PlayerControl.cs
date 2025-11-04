@@ -62,6 +62,15 @@ public class PlayerControl : MonoBehaviour
         verticalInput = Input.GetKey(KeyCode.Space);
         sideInput = Input.GetAxis("Horizontal");
 
+        if (forwardInput == 0 || floating)
+        {
+            animator.SetBool("isWalking", false);
+        }
+        else
+        {
+            animator.SetBool("isWalking", true);
+        }
+
         if (floating)
         {
             animator.SetBool("isWalking", false);
@@ -98,14 +107,6 @@ public class PlayerControl : MonoBehaviour
         //}
         else
         {
-            if (forwardInput == 0)
-            {
-               animator.SetBool("isWalking", false);
-            }
-            else
-            {
-                animator.SetBool("isWalking", true);
-            }
             transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
             transform.Translate(Vector3.right * Time.deltaTime * speed * sideInput);
 
@@ -152,34 +153,34 @@ public class PlayerControl : MonoBehaviour
                         floating = false;
                         gameObject.tag = "Small";
                         gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                        gameObject.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+                        //gameObject.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
                         speed = 1.5f * avgSpeed;
-                        animator.speed = 2.0f;
+                        animator.SetFloat("speed", 2.0f);
                         break;
                     case "Medium":
                         Debug.Log("m");
                         floating = false;
                         gameObject.tag = "Medium";
                         gameObject.transform.localScale = Vector3.one;
-                        gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+                        //gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
                         speed = avgSpeed;
-                        animator.speed = 1.5f;
+                        animator.SetFloat("speed", 1.5f);
                         break;
                     case "Large":
                         Debug.Log("l");
                         floating = false;
                         gameObject.tag = "Large";
                         gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                        gameObject.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
+                        //gameObject.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
                         speed = 0.5f * avgSpeed;
-                        animator.speed = 1.0f;
+                        animator.SetFloat("speed", 1.0f);
                         break;
                     case "Float":
                         Debug.Log("f");
                         floating = true;
                         gameObject.tag = "Float";
                         gameObject.transform.localScale = Vector3.one;
-                        gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
+                        //gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
                         speed = avgSpeed;
                         break;
                     default:
