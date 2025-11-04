@@ -37,13 +37,6 @@ public class FieldOfView : MonoBehaviour
     [HideInInspector]
     public bool playerInFOV;
 
-    private PlantController plant;
-
-    private void Start()
-    {
-        plant = GetComponent<PlantController>();
-    }
-
 
     private void Update()
     {

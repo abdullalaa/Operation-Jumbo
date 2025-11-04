@@ -5,7 +5,7 @@
 
 using UnityEngine;
 
-public class PlantTest : MonoBehaviour
+public class PlantController : MonoBehaviour
 {
     private Animator animator;
 
@@ -16,6 +16,9 @@ public class PlantTest : MonoBehaviour
 
     private bool playerInRange = false;
     private Transform playerTransform;
+
+    [SerializeField]
+    private float offsetUnit = 0.8f;
 
     void Start()
     {
@@ -44,11 +47,35 @@ public class PlantTest : MonoBehaviour
             // Follow player at attach position
             if (playerTransform != null)
             {
-                transform.position = playerTransform.position;
-                transform.rotation = playerTransform.rotation;
+                transform.position = GetAttachPosition();
+                transform.rotation = transform.rotation = Quaternion.Euler(playerTransform.rotation.x, -111.1f, playerTransform.rotation.z);
             }
         }
     }
+
+    private Vector3 GetAttachPosition()
+    {
+        if (playerTransform == null) return transform.position;
+
+        Collider playerCollider = playerTransform.GetComponent<Collider>();
+        if (playerCollider == null) return playerTransform.position;
+
+        // Get the forward direction of the player
+        Vector3 forward = playerTransform.forward;
+
+        // Calculate the edge offset
+        Vector3 offset = forward * (playerCollider.bounds.extents.z + offsetUnit);
+
+        // Attach at the edge in front of the player
+        Vector3 attachPos = playerTransform.position + offset;
+
+        // Set Y position to always 0.001 (Since origin of player has different y)
+        attachPos.y = 0.001f;
+
+        return attachPos;
+    }
+
+
 
     // Attach plant to player
     private void AttachToPlayer()
@@ -68,7 +95,7 @@ public class PlantTest : MonoBehaviour
         isAttached = false;
         playerInRange = false;
         playerTransform = null; // Reset attach point
-        animator?.SetBool("PlantWiggle", false); 
+        animator?.SetBool("PlantWiggle", false);
     }
 
     // Check if player is in range and if it is medium player to use the attach position from player
