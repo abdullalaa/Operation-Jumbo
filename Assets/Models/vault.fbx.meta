@@ -13,12 +13,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: VaultBodyInside_Mat
-    second: {fileID: 2100000, guid: 557c48c3a12cb664882bdc990e37a1fe, type: 2}
+    second: {fileID: 2100000, guid: bd8eb0cf5f80ec84392f07ed2820c7b9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: VaultBody_Mat
-    second: {fileID: 2100000, guid: bd8eb0cf5f80ec84392f07ed2820c7b9, type: 2}
+    second: {fileID: 2100000, guid: 557c48c3a12cb664882bdc990e37a1fe, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

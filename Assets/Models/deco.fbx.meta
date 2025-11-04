@@ -18,12 +18,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Door_Leaf
-    second: {fileID: 2100000, guid: c4e31e2c3b7e7e24980200594f58e245, type: 2}
+    second: {fileID: 2100000, guid: a292e9e44f4dfb44c922f3fcce8e239f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Door_frame
-    second: {fileID: 2100000, guid: a292e9e44f4dfb44c922f3fcce8e239f, type: 2}
+    second: {fileID: 2100000, guid: c4e31e2c3b7e7e24980200594f58e245, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
