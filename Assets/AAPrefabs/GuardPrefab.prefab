@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 254bfb37c118b7445b94ce708c7484aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -445,8 +445,8 @@ MonoBehaviour:
   radius: 5
   angle: 90
   detectionTime: 0.75
-  baseColor: {r: 1, g: 1, b: 1, a: 0.6666667}
-  alertColor: {r: 1, g: 0, b: 0, a: 0.6666667}
+  baseColor: {r: 1, g: 1, b: 1, a: 0.47058824}
+  alertColor: {r: 1, g: 0, b: 0, a: 0.47058824}
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 64

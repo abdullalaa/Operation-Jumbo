@@ -4,7 +4,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class FOVPlayerRespawn : MonoBehaviour
 {
     public static FOVPlayerRespawn Instance;
@@ -46,7 +46,7 @@ public class FOVPlayerRespawn : MonoBehaviour
     {
         if (isMenuActive) return; // Prevent multiple calls
         gameOver = true;
-        playerToRespawn = player;
+        
         respawnMenu.gameObject.SetActive(true);
         isMenuActive = true;
 
@@ -55,30 +55,21 @@ public class FOVPlayerRespawn : MonoBehaviour
     // Called when the button is pressed
     private void OnRespawnButtonClicked()
     {
-        if (playerToRespawn != null)
-        {
-            RespawnPlayer(playerToRespawn);
-            gameOver = false;
-        }
+        ReloadCurrentScene();
 
         respawnMenu.gameObject.SetActive(false);
         isMenuActive = false;
     }
-
-    // Move player to the respawn location
-    private void RespawnPlayer(GameObject player)
+    public void ReloadCurrentScene()
     {
-        player.transform.position = transform.position;
-        player.transform.rotation = transform.rotation;
+        // Get the active scene
+        Scene currentScene = SceneManager.GetActiveScene();
 
-        // find GameManager reference first
-        if (gm == null) gm = GameManager.instance;
-
-        // tell GameMager to do reset tasks
-        if (gm != null) gm.ResetLevel();
-        else Debug.LogWarning("GameManager can't find!");
-
+        // Reload the active scene
+        SceneManager.LoadScene(currentScene.name);
     }
+    // Move player to the respawn location
+    
 
     // Draw sphere around empty to show where spawn point is
     private void OnDrawGizmos()
