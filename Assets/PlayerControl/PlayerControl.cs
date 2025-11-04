@@ -6,14 +6,17 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] Wire wire;
 
-    public float avgSpeed = 10.0f;
+    public float avgSpeed = 5f;
+
     private float speed = 10.0f;
     public float turnSpeed = 150.0f;
+
     private float horizontalInput;
     private float forwardInput;
     private bool verticalInput;
     private float sideInput;
-    public bool mouseToTurn = true;
+
+    public bool mouseToTurn = false;
 
     private bool isLowEnough;
     public float maxHeight = 4.0f;

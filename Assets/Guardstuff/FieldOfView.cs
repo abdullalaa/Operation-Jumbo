@@ -21,7 +21,7 @@ public class FieldOfView : MonoBehaviour
     public float angle;
 
     [Header("FOV Detection")]
-    public float detectionTime = 2f;
+    public float detectionTime = 0.75f;
     private float timer = 0f;
 
     [Header("FOV Color")]
@@ -97,8 +97,12 @@ public class FieldOfView : MonoBehaviour
                 if (timer >= detectionTime)
                 {
                     FOVPlayerRespawn.Instance.ShowRespawnMenu(playerRef); // Show respawn menu
-                    timer = 0f;
+                    
                 }
+            }
+            if (!playerInFOV)
+            {
+                timer = 0f;
             }
 
         }
