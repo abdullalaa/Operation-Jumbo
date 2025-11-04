@@ -17,14 +17,9 @@ public class FOVPlayerRespawn : MonoBehaviour
     // assign wire in inspector
     [SerializeField] Wire wire;
 
-    private GameObject playerToRespawn;
     private bool isMenuActive = false;
     public bool gameOver = false;
 
-    // reference to GameManager
-    private GameManager gm;
-
-    // Initialized necessary stuff
     private void Awake()
     {
         Instance = this;
@@ -36,25 +31,21 @@ public class FOVPlayerRespawn : MonoBehaviour
             respawnButton.onClick.AddListener(OnRespawnButtonClicked);
     }
 
-    void Update()
-    {
-
-    }
-
     // Called when player is spotted
     public void ShowRespawnMenu(GameObject player)
     {
+
         if (isMenuActive) return; // Prevent multiple calls
         gameOver = true;
         
         respawnMenu.gameObject.SetActive(true);
         isMenuActive = true;
-
     }
 
     // Called when the button is pressed
     private void OnRespawnButtonClicked()
     {
+
         ReloadCurrentScene();
 
         respawnMenu.gameObject.SetActive(false);
@@ -62,19 +53,19 @@ public class FOVPlayerRespawn : MonoBehaviour
     }
     public void ReloadCurrentScene()
     {
+ 
         // Get the active scene
         Scene currentScene = SceneManager.GetActiveScene();
+
 
         // Reload the active scene
         SceneManager.LoadScene(currentScene.name);
     }
-    // Move player to the respawn location
     
-
     // Draw sphere around empty to show where spawn point is
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, 0.5f);
+        Gizmos.DrawSphere(transform.position, 0.25f);
     }
 }
