@@ -26,12 +26,15 @@ public class PlayerControl : MonoBehaviour
 
     private bool floating = false;
 
+    private bool initialized = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
+        initialized = true;
     }
 
     // Update is called once per frame
@@ -167,7 +170,7 @@ public class PlayerControl : MonoBehaviour
                     default:
                         break;
                 }
-                transform.Translate(Vector3.forward * forwardInput * 3f);
+                //transform.Translate(Vector3.forward * forwardInput * 3f);
             }
         }
     }
@@ -175,5 +178,10 @@ public class PlayerControl : MonoBehaviour
     public float getHorizontal()
     {
         return turnSpeed * horizontalInput * Time.deltaTime;
+    }
+
+    public bool isInitialized()
+    {
+        return initialized;
     }
 }
