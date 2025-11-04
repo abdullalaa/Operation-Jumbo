@@ -28,6 +28,8 @@ public class PlayerControl : MonoBehaviour
 
     private bool initialized = false;
 
+    private Animator animator;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,6 +37,7 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         initialized = true;
+        animator = GameObject.Find("Elephant").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -61,6 +64,7 @@ public class PlayerControl : MonoBehaviour
 
         if (floating)
         {
+            animator.SetBool("isWalking", false);
             //rb.isKinematic = false;
             //rb.angularVelocity = Vector3.zero;
             //rb.angularVelocity = Vector3.zero;
@@ -94,6 +98,14 @@ public class PlayerControl : MonoBehaviour
         //}
         else
         {
+            if (forwardInput == 0)
+            {
+               animator.SetBool("isWalking", false);
+            }
+            else
+            {
+                animator.SetBool("isWalking", true);
+            }
             transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
             transform.Translate(Vector3.right * Time.deltaTime * speed * sideInput);
 
@@ -142,6 +154,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                         gameObject.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
                         speed = 1.5f * avgSpeed;
+                        animator.speed = 2.0f;
                         break;
                     case "Medium":
                         Debug.Log("m");
@@ -150,6 +163,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.transform.localScale = Vector3.one;
                         gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
                         speed = avgSpeed;
+                        animator.speed = 1.5f;
                         break;
                     case "Large":
                         Debug.Log("l");
@@ -158,6 +172,7 @@ public class PlayerControl : MonoBehaviour
                         gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
                         gameObject.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
                         speed = 0.5f * avgSpeed;
+                        animator.speed = 1.0f;
                         break;
                     case "Float":
                         Debug.Log("f");

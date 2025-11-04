@@ -152,8 +152,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wire: {fileID: 0}
-  speed: 10
+  avgSpeed: 5
   turnSpeed: 150
+  mouseToTurn: 0
   maxHeight: 5
   floatForce: 3
 --- !u!114 &6184721210183683832
@@ -169,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wireEnd: {fileID: 0}
-  alertMessage: {fileID: 0}
+  isConnected: 0
 --- !u!1 &8385215045898423277
 GameObject:
   m_ObjectHideFlags: 0
