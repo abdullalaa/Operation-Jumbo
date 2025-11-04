@@ -12,9 +12,9 @@ public class PlayerControl : MonoBehaviour
     public float turnSpeed = 150.0f;
 
     private float horizontalInput;
-    private float forwardInput;
+    public float forwardInput;
     private bool verticalInput;
-    private float sideInput;
+    public float sideInput;
 
     public bool mouseToTurn = false;
 
