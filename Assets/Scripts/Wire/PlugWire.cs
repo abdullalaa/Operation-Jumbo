@@ -124,6 +124,10 @@ public class PlugWire : MonoBehaviour
         joint.yMotion = ConfigurableJointMotion.Limited;
         joint.zMotion = ConfigurableJointMotion.Limited;
 
+        SoftJointLimit limit = joint.linearLimit;
+        limit.limit = spacing;
+        joint.linearLimit = limit;
+
         if (isPlug)
         {
             joint.angularXMotion = ConfigurableJointMotion.Locked;
@@ -131,9 +135,7 @@ public class PlugWire : MonoBehaviour
             joint.angularZMotion = ConfigurableJointMotion.Locked;
         }
 
-        SoftJointLimit limit = joint.linearLimit;
-        limit.limit = spacing;
-        joint.linearLimit = limit;
+
 
         return gb.transform;
         
@@ -151,27 +153,59 @@ public class PlugWire : MonoBehaviour
 
         var lastRB = segs[segs.Count - 1].GetComponent<Rigidbody>();
         //lastRB.isKinematic = false;
-        lastRB.linearVelocity = Vector3.zero;
+        //lastRB.linearVelocity = Vector3.zero;
         if (isLockedToEndPoint)
         {
             lastRB.MovePosition(lockedPosition);
+            //Vector3 dir=  (lockedPosition - lastRB.position);
+            //lastRB.AddForce(dir.normalized * 2000f, ForceMode.Acceleration);
         }
         else
         {
             lastRB.MovePosition(endTransform.position);
+            //Vector3 dir = (endTransform.position - lastRB.position);
+            //lastRB.AddForce(dir.normalized * 2000f, ForceMode.Acceleration);
         }
 
-        lr.positionCount = segs.Count;
-        for(int i = 0; i < segs.Count; i++)
-        {
-            Vector3 p = segs[i].position;
-            //p.y += 0.01f * Mathf.Sin(i * 0.5f);
-            lr.SetPosition(i, p);
-        }
+        
 
         Debug.Log("Current Len: " + CalcRealLength() + " Max Len: " + maxRouteLength);
             
 
+    }
+
+    private void LateUpdate()
+    {
+        int smoothAmount = 2;
+        List<Vector3> pts = new List<Vector3>();
+
+        lr.positionCount = (segs.Count-2)*smoothAmount+2;
+
+        int idx = 0;
+
+        lr.SetPosition(idx++, segs[0].position);
+
+        for (int i = 1; i < segs.Count-1; i++)
+        {
+
+            Vector3 prev = segs[i - 1].position;
+            Vector3 curr = segs[i].position;
+            Vector3 next = segs[i+1].position;
+
+            Vector3 center = (prev + curr + next) / 3f;
+
+            for(int s = 1; s < smoothAmount; s++)
+            {
+                float t = s / (float)(smoothAmount + 1);
+                Vector3 smoothedPos = Vector3.Lerp(curr, center, t);
+                pts.Add(smoothedPos);
+            }
+            
+        }
+
+        pts.Add(segs[segs.Count - 1].position);
+        lr.positionCount = pts.Count;
+        lr.SetPositions(pts.ToArray());
     }
 
 
@@ -209,7 +243,7 @@ public class PlugWire : MonoBehaviour
 
         float disLst = Vector3.Distance(a.position, b.position);
 
-        if (disLst <= (spacing*segs.Count) +0.01f) return;
+        if (disLst <= (spacing*segs.Count) +0.02f) return;
         //if (disLst <= spacing + 0.02f) return;
 
         Vector3 dir = (a.position - b.position).normalized;
@@ -227,12 +261,12 @@ public class PlugWire : MonoBehaviour
             = segs[plugIndex - 1].GetComponent<Rigidbody>();
 
         // plug > newSeg seg connect
-        var plug = segs[plugIndex + 1];
+        var plug = segs[plugIndex];
         var plugJoint = plug.GetComponent<ConfigurableJoint>();
         plugJoint.connectedBody = newSeg.GetComponent<Rigidbody>();
 
         SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
-        spring.spring = 5000f;
+        spring.spring = 50000f;
         spring.damper = 0.2f;
         plugJoint.linearLimitSpring = spring;
 

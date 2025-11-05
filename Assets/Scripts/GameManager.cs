@@ -1,4 +1,5 @@
 using System;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     void LimitPlayerByWire()
     {
         if (wire == null || player == null) return;
+        if (wire.isLockedToEndPoint) return;
 
         float maxLen = wire.GetMaxLength();
         float realLen = wire.CalcRealLength();
@@ -57,8 +59,8 @@ public class GameManager : MonoBehaviour
         if(rb != null)
         {
             //rb.MovePosition(newPos);
-            rb.angularVelocity = Vector3.zero;
-            rb.position = newPos;
+            Vector3 toInside = newPos - rb.position;
+            rb.AddForce(toInside.normalized * 60f, ForceMode.Acceleration);
         }
         else
         {
