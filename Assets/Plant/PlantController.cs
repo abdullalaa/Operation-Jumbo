@@ -25,7 +25,7 @@ public class PlantController : MonoBehaviour
         animator = GetComponent<Animator>(); // Wiggle animation to attract attention
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!isAttached && playerInRange) // When plant is not attached & player is within collider
         {

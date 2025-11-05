@@ -3233,6 +3233,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8283348267498804238, guid: e81d8ba745928654d986826f4313fde9, type: 3}
+      propertyPath: alertColor.a
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283348267498804238, guid: e81d8ba745928654d986826f4313fde9, type: 3}
       propertyPath: detectionTime
       value: 0.25
       objectReference: {fileID: 0}
@@ -10120,7 +10124,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 62feac5da2f4f514f8c9757e7c1dcd5a, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1708608917
 Transform:
@@ -10952,25 +10956,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92abeeafa1b160446b940ddf077699ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1482175809}
-  startTransform: {fileID: 553672614}
-  endTransform: {fileID: 1460860735}
-  segmentCount: 60
-  totalLength: 10
-  radius: 0.5
-  totalWeight: 1
-  drag: 1
-  angularDrag: 1
-  usePhysics: 1
-  segments: []
-  segmentParent: {fileID: 384043048}
-  prevSegmentCount: 0
-  prevTotalLength: 0
-  prevDrag: 0
-  prevTotalWeight: 0
-  prevAngularDrag: 0
-  prevRadius: 0
-  lineRenderer: {fileID: 0}
 --- !u!4 &1969194410
 Transform:
   m_ObjectHideFlags: 0
@@ -11809,6 +11794,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plant
       objectReference: {fileID: 0}
+    - target: {fileID: 5187538894563119787, guid: b82557a2b8112004c9082fda8b9b2551, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11890,6 +11879,10 @@ PrefabInstance:
       propertyPath: baseColor.a
       value: 0.6666667
       objectReference: {fileID: 0}
+    - target: {fileID: 8283348267498804238, guid: e81d8ba745928654d986826f4313fde9, type: 3}
+      propertyPath: alertColor.a
+      value: 0.7058824
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11917,7 +11910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: avgSpeed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: maxHeight
@@ -11929,7 +11922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3379558543475787153, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: mouseToTurn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5096672017406636346, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits

@@ -445,8 +445,8 @@ MonoBehaviour:
   radius: 5
   angle: 90
   detectionTime: 0.75
-  baseColor: {r: 0.6679245, g: 0.6679245, b: 0.6679245, a: 0.47058824}
-  alertColor: {r: 1, g: 0, b: 0, a: 0.47058824}
+  baseColor: {r: 0.6679245, g: 0.6679245, b: 0.6679245, a: 0.6666667}
+  alertColor: {r: 1, g: 0, b: 0, a: 0.74509805}
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 64
