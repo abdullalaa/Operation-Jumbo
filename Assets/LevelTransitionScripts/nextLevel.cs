@@ -7,14 +7,14 @@ public class nextLevel : MonoBehaviour
     public Animator transition;
     public float transitionTime;
     private bool next = false;
-    private GameObject levelTrigger;
+    private GameObject Player;
     private void Start()
     {
-        levelTrigger = GameObject.Find("LevelTrigger");
+        Player = GameObject.Find("playerMedium");
     }
     public void Update()
     {
-        next = levelTrigger.GetComponent<endLevelTrigger>().loadNextLevel;
+        next = Player.GetComponent<InteractionWEndPoint>().isConnected;
         if (next)
         {
             LoadNextLevel();
