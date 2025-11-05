@@ -23,7 +23,6 @@ public class PlugWire : MonoBehaviour
     [SerializeField] int initialSeg = 4;
 
     [Header("Models")]
-    [SerializeField] GameObject plugPrefab;
     [SerializeField] Material wireMeterial;
 
     [Header("Plug")]
@@ -103,10 +102,7 @@ public class PlugWire : MonoBehaviour
         gb.transform.SetParent(segments);
         gb.transform.position = position;
 
-        if (isPlug)
-        {
-             GameObject visual = Instantiate(plugPrefab, gb.transform);
-        }
+
    
 
         var rb = gb.AddComponent<Rigidbody>();
