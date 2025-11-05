@@ -9,6 +9,7 @@ TagManager:
   - Medium
   - Large
   - Float
+  - Door
   layers:
   - Default
   - TransparentFX
