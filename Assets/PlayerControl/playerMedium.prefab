@@ -152,14 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca46ebf3a20ed844a918e3ca793a0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wire: {fileID: 0}
-  avgSpeed: 6
+  avgSpeed: 2
   turnSpeed: 150
   forwardInput: 0
   sideInput: 0
   mouseToTurn: 1
   maxHeight: 4
-  floatForce: 3
+  floatForce: 0.5
 --- !u!114 &6184721210183683832
 MonoBehaviour:
   m_ObjectHideFlags: 0
