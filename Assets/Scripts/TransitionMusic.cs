@@ -6,6 +6,7 @@ public class MusicChanger : MonoBehaviour
     private MusicManager mm;
 
 
+
     private void Start()
     {
         mm = FindObjectOfType<MusicManager>();
@@ -34,12 +35,6 @@ public class MusicChanger : MonoBehaviour
             {
                 mm.ChangeSound(mm.fastStep);
                 mm.currentSong.mute = false;
-            }
-            else if (player.CompareTag("Float"))
-            {
-                mm.ChangeSound(mm.balloon);
-                mm.currentSong.mute = false;
-                
             }
         }
         else if ((player.GetComponent<PlayerControl>().forwardInput == 0 && player.GetComponent<PlayerControl>().sideInput == 0))

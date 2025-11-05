@@ -773,13 +773,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee923a0775444242a256dcf6ab34049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
-=======
-  respawnMenu: {fileID: 1520883000}
-  respawnButton: {fileID: 951107529}
-  isMenuActive: 0
-  gameOver: 0
->>>>>>> Stashed changes
 --- !u!4 &125126580
 Transform:
   m_ObjectHideFlags: 0
@@ -3515,135 +3508,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 171641735}
   m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
---- !u!1 &584863065
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 584863066}
-  - component: {fileID: 584863067}
-  m_Layer: 3
-  m_Name: Audio Source
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &584863066
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584863065}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1482175816}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &584863067
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584863065}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5326812696844847407, guid: 1d9ba69fa12d2c942aa72a9d73440bc4, type: 2}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: e8968cf600b998747881203dfd993e50, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.2
-  m_Pitch: 1
-  Loop: 0
-  Mute: 1
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &600492096
 GameObject:
   m_ObjectHideFlags: 0
@@ -3670,7 +3534,7 @@ AudioSource:
   m_GameObject: {fileID: 600492096}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5326812696844847407, guid: 1d9ba69fa12d2c942aa72a9d73440bc4, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: f62cef20a2e263c46878459dda9242a1, type: 3}
   m_PlayOnAwake: 1
@@ -9531,7 +9395,6 @@ MonoBehaviour:
   slowStep: {fileID: 1883252797}
   fastStep: {fileID: 2126306740}
   mediumStep: {fileID: 600492097}
-  balloon: {fileID: 0}
 --- !u!1 &1378075503
 GameObject:
   m_ObjectHideFlags: 0
@@ -13894,7 +13757,7 @@ AudioSource:
   m_GameObject: {fileID: 1883252795}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5326812696844847407, guid: 1d9ba69fa12d2c942aa72a9d73440bc4, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: c9a574cfd08f4654e951434ff6e04ff7, type: 3}
   m_PlayOnAwake: 1
@@ -15317,11 +15180,11 @@ AudioSource:
   m_GameObject: {fileID: 2073209928}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -7557194700920142288, guid: 1d9ba69fa12d2c942aa72a9d73440bc4, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: d16778f14ebe2f74f909753bdfb31643, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -15518,7 +15381,7 @@ AudioSource:
   m_GameObject: {fileID: 2126306738}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5326812696844847407, guid: 1d9ba69fa12d2c942aa72a9d73440bc4, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: cb03eb2c504e87e4394477cf3f65dfb3, type: 3}
   m_PlayOnAwake: 1
@@ -16323,9 +16186,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5372335102560062357, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2126306739}
-    - targetCorrespondingSourceObject: {fileID: 5372335102560062357, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 584863066}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2806888095211046686, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
       insertIndex: -1
