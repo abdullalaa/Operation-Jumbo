@@ -13,12 +13,14 @@ public class PlantController : MonoBehaviour
     private string currentPlayerTag;
 
     private bool isAttached = false;
+    private Quaternion rotationOffset;
 
     private bool playerInRange = false;
     private Transform playerTransform;
 
     [SerializeField]
     private float offsetUnit = 0.8f;
+    
 
     void Start()
     {
@@ -48,7 +50,7 @@ public class PlantController : MonoBehaviour
             if (playerTransform != null)
             {
                 transform.position = GetAttachPosition();
-                transform.rotation = transform.rotation = Quaternion.Euler(playerTransform.rotation.x, -111.1f, playerTransform.rotation.z);
+                transform.rotation = playerTransform.rotation * rotationOffset;
             }
         }
     }
@@ -80,6 +82,9 @@ public class PlantController : MonoBehaviour
     // Attach plant to player
     private void AttachToPlayer()
     {
+        // Store initial rotation offset
+        rotationOffset = Quaternion.Inverse(playerTransform.rotation) * transform.rotation;
+
         isAttached = true;
         animator?.SetBool("PlantWiggle", false); // Stop playing animation
 
