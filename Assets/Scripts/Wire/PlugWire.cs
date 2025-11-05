@@ -26,6 +26,10 @@ public class PlugWire : MonoBehaviour
     [SerializeField] GameObject wirePrefab;
     [SerializeField] GameObject plugPrefab;
 
+    [Header("Plug")]
+    public bool isLockedToEndPoint = false;
+    public Vector3 lockedPosition;
+
     List<Transform> segs = new List<Transform> ();
     float spacing;
     float maxRouteLength;
@@ -121,44 +125,18 @@ public class PlugWire : MonoBehaviour
         var lastRB = segs[segs.Count - 1].GetComponent<Rigidbody>();
         //lastRB.isKinematic = false;
         lastRB.linearVelocity = Vector3.zero;
-        lastRB.MovePosition(endTransform.position);
+        if (isLockedToEndPoint)
+        {
+            lastRB.MovePosition(lockedPosition);
+        }
+        else
+        {
+            lastRB.MovePosition(endTransform.position);
+        }
+            
 
-        Debug.DrawLine(segs[segs.Count-2].position, segs[segs.Count-1].position, Color.blue);
     }
 
-    //void LateUpdate()
-    //{
-
-    //    // first seg always fixed position
-    //    segs[0].position = startTransform.position;
-
-
-    //    // last seg follow player
-    //    //segs[segs.Count-1].position = player.transform.position;
-
-    //    var lastRB = segs[segs.Count - 1].GetComponent<Rigidbody>();
-    //    lastRB.MovePosition(endTransform.position);
-
-
-
-    //    //for (int i = segs.Count-2; i >= 1; i--)
-    //    //{
-    //    //    Vector3 dir = segs[i+1].position - segs[i].position;
-    //    //    float d = dir.magnitude;
-    //    //    if(d > spacing)
-    //    //    {
-    //    //        segs[i].position = segs[i+1].position - dir.normalized * spacing;
-    //    //    }
-    //    //}
-
-
-    //    //segs[1].position = startTransform.position;
-    //    //var firstRB = segs[0].GetComponent<Rigidbody>();
-    //    //firstRB.MovePosition(startTransform.position);
-
-    //    // check add seg
-    //    TryAddSegment();
-    //}
 
     private float CalcRouteLentgh()
     {
@@ -227,7 +205,7 @@ public class PlugWire : MonoBehaviour
 
         SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
         spring.spring = 5000f;
-        spring.damper = 20f;
+        spring.damper = 0.2f;
         plugJoint.linearLimitSpring = spring;
 
 
@@ -239,9 +217,14 @@ public class PlugWire : MonoBehaviour
 
     public float GetMaxLength() { return maxRouteLength; }
 
-    // Update is called once per frame
-    void Update()
+    public void LockTo(Vector3 pos)
     {
-        
+        isLockedToEndPoint = true;
+        lockedPosition = pos;
+    }
+
+    public void Unlock()
+    {
+        isLockedToEndPoint = false;
     }
 }

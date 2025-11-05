@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         Vector3 dir = (player.position - startPos).normalized;
         Vector3 newPos = startPos + dir*maxLen;
 
-        Rigidbody rb = GetComponent<Rigidbody>();
+        Rigidbody rb = player.GetComponent<Rigidbody>();
         if(rb != null)
         {
             rb.MovePosition(newPos);
@@ -63,10 +63,15 @@ public class GameManager : MonoBehaviour
             player.position = newPos;
         }
     }
+    public void ConnectedToEndPoint(Vector3 pos)
+    {
+        wire.LockTo(pos);
+    }
 
     public void ResetLevel()
     {
         //if(wire != null) wire.ResetWire();
+        wire.Unlock();
         if(interact != null) interact.ResetConnection();
 
         Debug.Log("Level reset done");

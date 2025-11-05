@@ -28,19 +28,13 @@ public class InteractionWEndPoint : MonoBehaviour
         {
             if(currentEndPoint != null)
             {
-                PlugWire wire = gm.wire;
-                wire.endTransform.position = currentEndPoint.transform.position;
-
+                gm.ConnectedToEndPoint(currentEndPoint.transform.position);
+               
                 isConnected = true;
                 gm.OnWireConnected();
+                gm.ShowHint(false);
 
             }
-        }
-
-        // after conencted keep wireEnd position fixed to endpoint
-        if(isConnected && wireEnd != null && currentEndPoint != null)
-        {
-            wireEnd.position = currentEndPoint.transform.position;
         }
     }
 
