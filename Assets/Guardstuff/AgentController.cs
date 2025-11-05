@@ -23,24 +23,24 @@ public class AgentController : MonoBehaviour
     private float waitTimer;
     public float waitDuration = 1;
     public Animator MouseMovement;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         //setting begin- and endpoints
         point1 = enemy.transform.position;
         point2 = endPoint.transform.position;
-        //MouseMovement = GetComponent<Animator>();
+       
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        //MouseMovement.SetBool("guardWalk", true);
+        MouseMovement.SetBool("guardWalk", true);
         enemy.updateRotation = true;
         if (Vector3.Distance(enemy.transform.position, point1) < 0.1f)
         {
-            //MouseMovement.SetBool("guardWalk", false);
+            MouseMovement.SetBool("guardWalk", false);
 
             enemy.updateRotation = false;
             waitTimer += Time.deltaTime;
@@ -51,32 +51,15 @@ public class AgentController : MonoBehaviour
                 enemy.transform.rotation *= Quaternion.Euler(0, 180, 0);
 
                 waitTimer = 0;
-
+                
                 // Move to point2
                 enemy.SetDestination(point2);
                 
             }
         }
-        ////if enemy is at point 1 set destination to point 2 after waiting for waitDuration (seconds)
-        //if (enemy.transform.position.x == point1.x && enemy.transform.position.z == point1.z)
-        //{
-        //    MouseMovement.SetBool("guardWalk",false);
-        //    enemy.updateRotation = false;
-        //    waitTimer += Time.deltaTime; 
-        //    if (waitTimer > waitDuration)
-        //    {
-
-            //        enemy.transform.rotation *= Quaternion.Euler(0, 180, 0);
-            //        waitTimer = 0;
-            //        enemy.destination = point2;
-            //        enemy.updateRotation = true;
-            //    }
-            //    //Debug.Log("looking for point2");
-            //}
-            //if enemy is at point 2 set destination to point 1 after waiting for waitDuration (seconds)
-        else if (enemy.transform.position.x == point2.x && enemy.transform.position.z == point2.z)
+        else if (Vector3.Distance(enemy.transform.position, point2) < 0.1f)
         {
-            //MouseMovement.SetBool("guardWalk", false);
+            MouseMovement.SetBool("guardWalk", false);
             enemy.updateRotation = false;
             waitTimer += Time.deltaTime;
             if (waitTimer > waitDuration)
@@ -85,9 +68,10 @@ public class AgentController : MonoBehaviour
                 enemy.transform.rotation *= Quaternion.Euler(0, 180, 0);
                 waitTimer = 0;
                 enemy.destination = point1;
-                enemy.updateRotation = true;
+                
+                
             }
-            //Debug.Log("looking for point1");
+            
         }
         
 

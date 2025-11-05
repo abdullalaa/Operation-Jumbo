@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         rb.isKinematic = false;
 
@@ -125,7 +125,7 @@ public class PlayerControl : MonoBehaviour
         //transform.Translate(Vector3.right * Time.deltaTime * speed * horizontalInput);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
 
         if (floating && !rb.isKinematic)
