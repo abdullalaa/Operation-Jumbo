@@ -36,6 +36,11 @@ public class AgentController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.gameOver)
+        {
+            MouseMovement.SetBool("guardWalk", false);
+            return;
+        }
         MouseMovement.SetBool("guardWalk", true);
         enemy.updateRotation = true;
         if (Vector3.Distance(enemy.transform.position, point1) < 0.1f)

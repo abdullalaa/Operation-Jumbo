@@ -41,6 +41,11 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (GameManager.instance.gameOver)
+        {
+            animator.SetBool("isWalking", false);
+            return;
+        }
         if (mouseToTurn)
         {
             horizontalInput = Input.GetAxis("Mouse X");
