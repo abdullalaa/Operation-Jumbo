@@ -62,7 +62,7 @@ public class PlugWire : MonoBehaviour
 
         segs.Clear();
 
-        spacing = radius * 2f;
+        spacing = radius * 1.5f;
         maxRouteLength = CalcRouteLentgh();
 
         // create first fixed segment == start
@@ -111,8 +111,8 @@ public class PlugWire : MonoBehaviour
 
         var rb = gb.AddComponent<Rigidbody>();
         rb.mass = 0.1f;
-        rb.linearDamping = 2f;
-        rb.angularDamping = 2f;
+        rb.linearDamping = 0.1f;
+        rb.angularDamping = 0.1f;
 
         var col = gb.AddComponent<SphereCollider>();
         col.radius = radius;
@@ -125,7 +125,7 @@ public class PlugWire : MonoBehaviour
         joint.zMotion = ConfigurableJointMotion.Limited;
 
         SoftJointLimit limit = joint.linearLimit;
-        limit.limit = spacing;
+        limit.limit = spacing * 1.2f;
         joint.linearLimit = limit;
 
         if (isPlug)
@@ -133,6 +133,8 @@ public class PlugWire : MonoBehaviour
             joint.angularXMotion = ConfigurableJointMotion.Locked;
             joint.angularYMotion = ConfigurableJointMotion.Locked;
             joint.angularZMotion = ConfigurableJointMotion.Locked;
+            rb.freezeRotation = true;
+            //rb.isKinematic = true;
         }
 
 
@@ -156,15 +158,17 @@ public class PlugWire : MonoBehaviour
         //lastRB.linearVelocity = Vector3.zero;
         if (isLockedToEndPoint)
         {
+            lastRB.isKinematic = true; 
             lastRB.MovePosition(lockedPosition);
             //Vector3 dir=  (lockedPosition - lastRB.position);
             //lastRB.AddForce(dir.normalized * 2000f, ForceMode.Acceleration);
         }
         else
         {
-            lastRB.MovePosition(endTransform.position);
-            //Vector3 dir = (endTransform.position - lastRB.position);
-            //lastRB.AddForce(dir.normalized * 2000f, ForceMode.Acceleration);
+            //lastRB.MovePosition(endTransform.position);
+            lastRB.isKinematic= false;
+            Vector3 dir = (endTransform.position - lastRB.position);
+            lastRB.AddForce(dir.normalized * 10f, ForceMode.Acceleration);
         }
 
         
@@ -176,7 +180,7 @@ public class PlugWire : MonoBehaviour
 
     private void LateUpdate()
     {
-        int smoothAmount = 2;
+        int smoothAmount = 6;
         List<Vector3> pts = new List<Vector3>();
 
         lr.positionCount = (segs.Count-2)*smoothAmount+2;
@@ -229,10 +233,22 @@ public class PlugWire : MonoBehaviour
         }
         return len;
     }
+
+
     void TryAddSegment()
     {
-        if (CalcRealLength() >= maxRouteLength - 0.01f) return;
-        if (isLockedToEndPoint) return;
+        if (isLockedToEndPoint)
+        {
+            Debug.Log("Already Locked");
+            return;
+        }
+
+
+        if (CalcRealLength() >= maxRouteLength - 0.01f)
+        {
+            Debug.Log("Over the Max");
+            return;
+        }
 
         // last two sesgs
         Transform a = segs[0];
@@ -242,15 +258,21 @@ public class PlugWire : MonoBehaviour
         //Transform b = segs[segs.Count - 1].transform;
 
         float disLst = Vector3.Distance(a.position, b.position);
-
-        if (disLst <= (spacing*segs.Count) +0.02f) return;
-        //if (disLst <= spacing + 0.02f) return;
-
         Vector3 dir = (a.position - b.position).normalized;
         Vector3 pos = b.position + dir * spacing;
 
+        if (disLst <= (spacing*segs.Count) +0.02f)
+        {
+            Debug.Log("Not Enough Space");
+            return;
+        }
+        //if (disLst <= spacing + 0.02f) return;
+
+
+
         // new chain link
         Transform newSeg = CreateSeg(pos);
+        Debug.Log("New seg Position: " + newSeg.position);
 
         //insert before plug
         int plugIndex = segs.Count - 1;
@@ -266,8 +288,8 @@ public class PlugWire : MonoBehaviour
         plugJoint.connectedBody = newSeg.GetComponent<Rigidbody>();
 
         SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
-        spring.spring = 50000f;
-        spring.damper = 0.2f;
+        spring.spring = 2000f;
+        spring.damper = 500f;
         plugJoint.linearLimitSpring = spring;
 
 
