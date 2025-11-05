@@ -37,8 +37,8 @@ public class MusicChanger : MonoBehaviour
             }
             else if (player.CompareTag("Float"))
             {
-                mm.ChangeSound(mm.balloon);
-                mm.currentSong.mute = false;
+                
+                mm.currentSong.mute = true;
                 
             }
         }
