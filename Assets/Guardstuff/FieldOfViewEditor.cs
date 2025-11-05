@@ -31,7 +31,7 @@ public class FieldOfViewEditor : Editor
         }
     }
 
-    // Something
+    // Calculation of vector
     private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
     {
         angleInDegrees += eulerY;
