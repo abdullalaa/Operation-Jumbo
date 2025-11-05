@@ -59,14 +59,11 @@ public class PlantController : MonoBehaviour
     {
         if (playerTransform == null) return transform.position;
 
-        Collider playerCollider = playerTransform.GetComponent<Collider>();
-        if (playerCollider == null) return playerTransform.position;
-
         // Get the forward direction of the player
         Vector3 forward = playerTransform.forward;
 
         // Calculate the edge offset
-        Vector3 offset = forward * (playerCollider.bounds.extents.z + offsetUnit);
+        Vector3 offset = forward * offsetUnit;
 
         // Attach at the edge in front of the player
         Vector3 attachPos = playerTransform.position + offset;
