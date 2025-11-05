@@ -13,9 +13,6 @@ public class FOVPlayerRespawn : MonoBehaviour
     public Canvas respawnMenu;        // Assign in Inspector
     public Button respawnButton;      // Assign in Inspector
 
-    [Header("Wire References")]
-    // assign wire in inspector
-    [SerializeField] Wire wire;
 
     private bool isMenuActive = false;
     public bool gameOver = false;

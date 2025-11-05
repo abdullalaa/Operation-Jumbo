@@ -232,10 +232,15 @@ public class PlugWire : MonoBehaviour
     {
         isLockedToEndPoint = true;
         lockedPosition = pos;
+
+        var lastRB = segs[segs.Count - 1].GetComponent<Rigidbody>();
+        lastRB.isKinematic = true;
     }
 
     public void Unlock()
     {
         isLockedToEndPoint = false;
+        var lastRB = segs[segs.Count - 1].GetComponent<Rigidbody>();
+        lastRB.isKinematic = false;
     }
 }

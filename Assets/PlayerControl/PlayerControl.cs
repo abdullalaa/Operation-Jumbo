@@ -3,9 +3,6 @@ using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
     // Attach to player object
-
-    [SerializeField] Wire wire;
-
     public float avgSpeed = 5f;
 
     private float speed = 10.0f;
