@@ -30,6 +30,9 @@ public class PlayerControl : MonoBehaviour
 
     private Animator animator;
 
+    private GameObject elephant;
+    private BoxCollider box;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,7 +40,9 @@ public class PlayerControl : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         initialized = true;
-        animator = GameObject.Find("Elephant").GetComponent<Animator>();
+        elephant = GameObject.Find("Elephant");
+        animator = elephant.GetComponent<Animator>();
+        box = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -152,36 +157,49 @@ public class PlayerControl : MonoBehaviour
                         Debug.Log("s");
                         floating = false;
                         gameObject.tag = "Small";
+                        box.size = new Vector3(1, 2, 1);
+                        box.center = new Vector3(0, 0, 0);
                         gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                         //gameObject.transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
                         speed = 1.5f * avgSpeed;
                         animator.SetFloat("speed", 2.0f);
+                        elephant.transform.localRotation = Quaternion.identity;
                         break;
                     case "Medium":
                         Debug.Log("m");
                         floating = false;
                         gameObject.tag = "Medium";
+                        box.size = new Vector3(1, 2, 1);
+                        box.center = new Vector3(0, 0, 0);
                         gameObject.transform.localScale = Vector3.one;
                         //gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
                         speed = avgSpeed;
                         animator.SetFloat("speed", 1.5f);
+                        elephant.transform.localRotation = Quaternion.identity;
                         break;
                     case "Large":
                         Debug.Log("l");
                         floating = false;
                         gameObject.tag = "Large";
+                        box.size = new Vector3(1, 2, 1);
+                        box.center = new Vector3(0, 0, 0);
                         gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
                         //gameObject.transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
                         speed = 0.5f * avgSpeed;
                         animator.SetFloat("speed", 1.0f);
+                        elephant.transform.localRotation = Quaternion.identity;
                         break;
                     case "Float":
                         Debug.Log("f");
                         floating = true;
                         gameObject.tag = "Float";
+                        box.size = new Vector3(1, 1, 2);
+                        box.center = new Vector3(0, 0, 1);
                         gameObject.transform.localScale = Vector3.one;
                         //gameObject.transform.position = new Vector3(transform.position.x, 1, transform.position.z);
                         speed = avgSpeed;
+                        elephant.transform.localRotation = Quaternion.identity;
+                        elephant.transform.Rotate(90, 0, 0);
                         break;
                     default:
                         break;
