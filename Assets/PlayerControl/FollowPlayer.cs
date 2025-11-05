@@ -1,25 +1,22 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class FollowPlayer : MonoBehaviour
 {
-    // Attach to main camera
+    // Attach to camera
     
-    public GameObject player;
-    public Vector3 offset = new Vector3(0f, 8.5f, -3.3f);
-    public float rotateX = 60f;
-    public float rotateY = -90f;
-    //private float rotateHorizontal;
-    private float turnSpeed = 10.0f;
+    public GameObject player; // The player that is followed by the camera
+
+    private Vector3 offset = new Vector3(0f, 8.5f, -3.3f); // The distance from the player to the camera
+    private float rotateX = 60f; // The rotation along the X-axis of the camera to make sure it faces the player
+    private float rotateY = 90f; // The rotation along the Y-axis of the camera to make sure it faces the player
+
+    private float turnSpeed = 10.0f; // To ensure smooth movement of the camera
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //transform.rotation = Quaternion.identity;
-        //transform.RotateAround(transform.position, transform.up, rotateY);
-        //transform.RotateAround(Vector3.zero, transform.right, rotateX);
-
+        // Initially rotate the camera as such so that it faces the correct way
         transform.rotation = Quaternion.Euler(rotateX, rotateY, 0f);
 
         StartCoroutine(LateStart());
@@ -27,31 +24,16 @@ public class FollowPlayer : MonoBehaviour
 
     IEnumerator LateStart()
     {
+        // Wait until player is initialized before setting camera position
         yield return new WaitUntil(() => player != null && player.GetComponent<PlayerControl>().isInitialized());
-        transform.position = player.transform.position + offset;
-    }
-
-    private void Update()
-    {
         
+        // Set the camera to the position of the player with an offset
+        transform.position = player.transform.position + offset;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        //float swap = -1;
-        //float rot = player.transform.rotation.eulerAngles.y;
-        //if (rot > 180)
-        //{
-        //    swap = -1;
-        //}
-
-        //rotateHorizontal = Input.GetAxis("Mouse X");
-        //transform.position = player.transform.position + new Vector3(swap * offset.x, offset.y, offset.z);
-        //transform.rotation = Quaternion.identity;
-        //transform.RotateAround(transform.position, transform.up, swap * rotateY);
-        //transform.RotateAround(transform.position, transform.right, rotateX);
-
         if (player == null) return;
 
         // PlayerControl already rotates the player with horizontal mouse input.
@@ -62,15 +44,4 @@ public class FollowPlayer : MonoBehaviour
         Quaternion desiredRotation = Quaternion.Euler(rotateX, player.transform.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Mathf.Clamp01(Time.deltaTime * turnSpeed));
     }
-
-    //private void FixedUpdate()
-    //{
-    //    float rotateHorizontal = Input.GetAxis("Mouse X");
-    //    //float rotateVertical = Input.GetAxis("Mouse Y");
-
-    //    transform.RotateAround(player.transform.position, Vector3.up, rotateHorizontal * turnSpeed);
-    //    transform.position = new Vector3(transform.position.x, player.transform.position.y + offset.y, transform.position.z);
-
-    //    //transform.RotateAround(Vector3.zero, transform.right, rotateVertical * turnSpeed);
-    //}
 }
