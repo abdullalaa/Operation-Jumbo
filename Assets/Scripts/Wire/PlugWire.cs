@@ -23,8 +23,8 @@ public class PlugWire : MonoBehaviour
     [SerializeField] int initialSeg = 4;
 
     [Header("Models")]
-    [SerializeField] GameObject wirePrefab;
     [SerializeField] GameObject plugPrefab;
+    [SerializeField] Material wireMeterial;
 
     [Header("Plug")]
     public bool isLockedToEndPoint = false;
@@ -34,6 +34,22 @@ public class PlugWire : MonoBehaviour
     float spacing;
     float maxRouteLength;
     int segIndex = 1;
+    LineRenderer lr;
+
+
+    private void Awake()
+    {
+        lr = GetComponent<LineRenderer>();
+        lr.positionCount = 0;
+        lr.material = wireMeterial;
+
+        lr.startWidth = radius * 0.5f;
+        lr.endWidth = radius * 0.5f;
+        lr.useWorldSpace = true;
+
+        // allighment
+        lr.alignment = LineAlignment.View;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -80,18 +96,18 @@ public class PlugWire : MonoBehaviour
 
     Transform CreateSeg(Vector3 position, bool isPlug = false)
     {
-        GameObject prefab = isPlug ? plugPrefab : wirePrefab;
         GameObject gb = new GameObject($"seg {segIndex}");
 
         //GameObject gb = Instantiate(prefab, position, Quaternion.identity, segments);
-        gb.name = $"seg {segIndex}";
         segIndex++;
         gb.transform.SetParent(segments);
         gb.transform.position = position;
 
-        GameObject visual = Instantiate(prefab, gb.transform);
-
-        visual.transform.localPosition = new Vector3(3.4f, 0, 0);
+        if (isPlug)
+        {
+             GameObject visual = Instantiate(plugPrefab, gb.transform);
+        }
+   
 
         var rb = gb.AddComponent<Rigidbody>();
         rb.mass = 0.1f;
@@ -127,6 +143,9 @@ public class PlugWire : MonoBehaviour
     private void FixedUpdate()
     {
         //segs[0].position = startTransform.position;
+        var firstRB = segs[0].GetComponent<Rigidbody>();
+        firstRB.isKinematic = true;
+        firstRB.MovePosition(startTransform.position);
 
         TryAddSegment();
 
@@ -140,6 +159,14 @@ public class PlugWire : MonoBehaviour
         else
         {
             lastRB.MovePosition(endTransform.position);
+        }
+
+        lr.positionCount = segs.Count;
+        for(int i = 0; i < segs.Count; i++)
+        {
+            Vector3 p = segs[i].position;
+            //p.y += 0.01f * Mathf.Sin(i * 0.5f);
+            lr.SetPosition(i, p);
         }
 
         Debug.Log("Current Len: " + CalcRealLength() + " Max Len: " + maxRouteLength);
@@ -195,32 +222,20 @@ public class PlugWire : MonoBehaviour
         int plugIndex = segs.Count - 1;
         segs.Insert(plugIndex, newSeg);
 
-        // newSeg > prev
-        newSeg.GetComponent<ConfigurableJoint>().connectedBody = segs[plugIndex - 1].GetComponent<Rigidbody>();
+        // newSeg > prev seg connect
+        newSeg.GetComponent<ConfigurableJoint>().connectedBody 
+            = segs[plugIndex - 1].GetComponent<Rigidbody>();
 
-        // plug > newSeg
+        // plug > newSeg seg connect
         var plug = segs[plugIndex + 1];
         var plugJoint = plug.GetComponent<ConfigurableJoint>();
-        if(plugJoint == null)
-        {
-            plugJoint = plug.gameObject.AddComponent<ConfigurableJoint>();  
-        }
-
-        plugJoint.xMotion = ConfigurableJointMotion.Limited;
-        plugJoint.yMotion = ConfigurableJointMotion.Limited;
-        plugJoint.zMotion = ConfigurableJointMotion.Limited;
-
-        SoftJointLimit limit = plugJoint.linearLimit;
-        limit.limit = spacing;
-        plugJoint.linearLimit = limit;
+        plugJoint.connectedBody = newSeg.GetComponent<Rigidbody>();
 
         SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
         spring.spring = 5000f;
         spring.damper = 0.2f;
         plugJoint.linearLimitSpring = spring;
 
-
-        plugJoint.connectedBody = newSeg.GetComponent<Rigidbody>();
 
         //Destroy(segs[segs.Count-1].GetComponent<ConfigurableJoint>());
 

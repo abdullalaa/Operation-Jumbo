@@ -56,7 +56,9 @@ public class GameManager : MonoBehaviour
         Rigidbody rb = player.GetComponent<Rigidbody>();
         if(rb != null)
         {
-            rb.MovePosition(newPos);
+            //rb.MovePosition(newPos);
+            rb.angularVelocity = Vector3.zero;
+            rb.position = newPos;
         }
         else
         {
