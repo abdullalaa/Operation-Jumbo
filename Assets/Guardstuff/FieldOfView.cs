@@ -1,9 +1,6 @@
 /* 
  * Field of View calculation and giving settings through to mesh
  * Sources used (for all FieldOfView scripts): 
- * https://medium.com/codex/creating-a-basic-field-of-vision-system-in-unity-c-718b58951cf6
- * https://www.youtube.com/watch?v=j1-OyLo77ss
- * https://www.youtube.com/watch?v=73Dc5JTCmKI&list=PLoLbLcSqUXwGPCsT3TFZ25i-Dj46NM1Hm&index=13
  */
 
 
