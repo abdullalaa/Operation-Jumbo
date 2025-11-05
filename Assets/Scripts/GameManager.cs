@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Gameplay Reference")]
     [SerializeField] Transform player;
     // reference to wire system
-    [SerializeField] Wire wire;
+    [SerializeField] public PlugWire wire;
     [SerializeField] InteractionWEndPoint interact;
 
     void Awake()
@@ -44,32 +44,29 @@ public class GameManager : MonoBehaviour
     {
         if (wire == null || player == null) return;
 
-        Vector3 anchorPos = wire.startTransform.position;
-        float maxDis = wire.GetRealTotalLength();
+        float maxLen = wire.GetMaxLength();
+        float realLen = wire.CalcRealLength();
+        if (realLen <= maxLen) return;
 
-        Vector3 dir = player.position - anchorPos;
-        float dist = dir.magnitude;
 
-        if (dist > maxDis)
+        Vector3 startPos = wire.startTransform.position;
+        Vector3 dir = (player.position - startPos).normalized;
+        Vector3 newPos = startPos + dir*maxLen;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if(rb != null)
         {
-            dir = dir.normalized * maxDis;
-            Vector3 newPos = anchorPos + dir;
-
-            Rigidbody rb = player.GetComponent<Rigidbody>();
-            if(rb != null && rb.isKinematic == false)
-            {
-                rb.MovePosition(newPos);
-            }
-            else
-            {
-                player.position = newPos;
-            }
+            rb.MovePosition(newPos);
+        }
+        else
+        {
+            player.position = newPos;
         }
     }
 
     public void ResetLevel()
     {
-        if(wire != null) wire.ResetWire();
+        //if(wire != null) wire.ResetWire();
         if(interact != null) interact.ResetConnection();
 
         Debug.Log("Level reset done");

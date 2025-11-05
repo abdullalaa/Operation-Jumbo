@@ -29,18 +29,18 @@ public class AgentController : MonoBehaviour
         //setting begin- and endpoints
         point1 = enemy.transform.position;
         point2 = endPoint.transform.position;
-        MouseMovement = GetComponent<Animator>();
+        //MouseMovement = GetComponent<Animator>();
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        MouseMovement.SetBool("guardWalk", true);
+        //MouseMovement.SetBool("guardWalk", true);
         enemy.updateRotation = true;
         if (Vector3.Distance(enemy.transform.position, point1) < 0.1f)
         {
-            MouseMovement.SetBool("guardWalk", false);
+            //MouseMovement.SetBool("guardWalk", false);
 
             enemy.updateRotation = false;
             waitTimer += Time.deltaTime;
@@ -76,7 +76,7 @@ public class AgentController : MonoBehaviour
             //if enemy is at point 2 set destination to point 1 after waiting for waitDuration (seconds)
         else if (enemy.transform.position.x == point2.x && enemy.transform.position.z == point2.z)
         {
-            MouseMovement.SetBool("guardWalk", false);
+            //MouseMovement.SetBool("guardWalk", false);
             enemy.updateRotation = false;
             waitTimer += Time.deltaTime;
             if (waitTimer > waitDuration)

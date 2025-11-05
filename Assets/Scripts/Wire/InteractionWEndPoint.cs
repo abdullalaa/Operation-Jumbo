@@ -26,16 +26,14 @@ public class InteractionWEndPoint : MonoBehaviour
         // player presses F to connect wire to endpoint
         if (canPress && Input.GetKeyDown(KeyCode.F))
         {
-            Debug.Log("Attempting to connect wire to endpoint.");
-            if (wireEnd != null && currentEndPoint != null)
+            if(currentEndPoint != null)
             {
-                // if these conditions is satisfied, change wireEnd position
-                wireEnd.position = currentEndPoint.transform.position;
-                isConnected = true;
-                Debug.Log("Wire connected to endpoint.");
+                PlugWire wire = gm.wire;
+                wire.endTransform.position = currentEndPoint.transform.position;
 
-                // notify GameManager
-                if (gm != null) { gm.OnWireConnected(); }
+                isConnected = true;
+                gm.OnWireConnected();
+
             }
         }
 
