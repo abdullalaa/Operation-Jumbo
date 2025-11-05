@@ -90,6 +90,7 @@ public class PlugWire : MonoBehaviour
         gb.transform.position = position;
 
         GameObject visual = Instantiate(prefab, gb.transform);
+
         visual.transform.localPosition = new Vector3(3.4f, 0, 0);
 
         var rb = gb.AddComponent<Rigidbody>();
@@ -106,6 +107,13 @@ public class PlugWire : MonoBehaviour
         joint.xMotion = ConfigurableJointMotion.Limited;
         joint.yMotion = ConfigurableJointMotion.Limited;
         joint.zMotion = ConfigurableJointMotion.Limited;
+
+        if (isPlug)
+        {
+            joint.angularXMotion = ConfigurableJointMotion.Locked;
+            joint.angularYMotion = ConfigurableJointMotion.Locked;
+            joint.angularZMotion = ConfigurableJointMotion.Locked;
+        }
 
         SoftJointLimit limit = joint.linearLimit;
         limit.limit = spacing;
@@ -133,6 +141,8 @@ public class PlugWire : MonoBehaviour
         {
             lastRB.MovePosition(endTransform.position);
         }
+
+        Debug.Log("Current Len: " + CalcRealLength() + " Max Len: " + maxRouteLength);
             
 
     }
@@ -161,6 +171,7 @@ public class PlugWire : MonoBehaviour
     void TryAddSegment()
     {
         if (CalcRealLength() >= maxRouteLength - 0.01f) return;
+        if (isLockedToEndPoint) return;
 
         // last two sesgs
         Transform a = segs[0];
