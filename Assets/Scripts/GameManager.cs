@@ -1,6 +1,8 @@
 using System;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,10 +18,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] public PlugWire wire;
     [SerializeField] InteractionWEndPoint interact;
 
+    [Header ("Respawn Menu")]
+    public Canvas respawnMenu;
+    public Button respawnButton;
+
+    private bool isRespawnMenuActive = false;
+    public bool gameOver = false;
+
     void Awake()
     {
         // assign global instance
         instance = this;
+
+        respawnMenu.gameObject.SetActive(false); // Hide at start
+        respawnButton.onClick.AddListener(OnRespawnButtonClicked);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,14 +84,16 @@ public class GameManager : MonoBehaviour
         wire.LockTo(pos);
     }
 
-    public void ResetLevel()
-    {
-        //if(wire != null) wire.ResetWire();
-        wire.Unlock();
-        if(interact != null) interact.ResetConnection();
+    //public void ResetLevel()
+    //{
+    //    //if(wire != null) wire.ResetWire();
+    //    wire.Unlock();
+    //    if(interact != null) interact.ResetConnection();
 
-        Debug.Log("Level reset done");
-    }
+    //    Debug.Log("Level reset done");
+    //}
+
+
 
     // called when wire successfully connects to endpoint
     public void OnWireConnected()
@@ -91,5 +105,35 @@ public class GameManager : MonoBehaviour
     public void ShowHint(bool isShow)
     {
         endPointMSG.SetActive(isShow);
+    }
+
+    private void OnRespawnButtonClicked()
+    {
+
+        ReloadCurrentScene();
+
+        respawnMenu.gameObject.SetActive(false);
+        isRespawnMenuActive = false;
+        gameOver = false;
+    }
+
+    // Called when player is spotted
+    public void ShowRespawnMenu(GameObject player)
+    {
+
+        if (isRespawnMenuActive) return; // Prevent multiple calls
+        gameOver = true;
+
+        respawnMenu.gameObject.SetActive(true);
+        isRespawnMenuActive = true;
+    }
+
+    public void ReloadCurrentScene()
+    {
+        // Get the active scene
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        // Reload the active scene
+        SceneManager.LoadScene(currentScene.name);
     }
 }

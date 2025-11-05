@@ -78,7 +78,7 @@ public class FieldOfView : MonoBehaviour
                     //Debug.Log("Timer" + timer);
                     if (timer >= detectionTime)
                     {
-                        FOVPlayerRespawn.Instance.ShowRespawnMenu(playerRef); // Show respawn menu
+                        GameManager.instance.ShowRespawnMenu(playerRef); // Show respawn menu
 
                     }
                 }
