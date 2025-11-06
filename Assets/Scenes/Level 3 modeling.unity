@@ -13619,7 +13619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf710fd52df120540b170921fb7ac764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontDirection: {fileID: 0}
+  frontDirection: {fileID: 1214945368}
   onlyOpenFromFront: 1
 --- !u!95 &1073693208
 Animator:
