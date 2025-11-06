@@ -7191,7 +7191,7 @@ GameObject:
   - component: {fileID: 729900980}
   - component: {fileID: 729900979}
   - component: {fileID: 729900978}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Plane (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7232,7 +7232,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2128175229}
 --- !u!33 &729900979
@@ -14613,7 +14613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1343273738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14661,8 +14661,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.2
+  m_fontSize: 0.15
+  m_fontSizeBase: 0.15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -14760,8 +14760,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343273737}
-  m_LocalRotation: {x: -0.00000008940697, y: 0.000004172325, z: -0.70710486, w: 0.70710874}
-  m_LocalPosition: {x: 0, y: 0, z: 0.34318098}
+  m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14769,7 +14769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.024600983, y: 0.19999814}
+  m_AnchoredPosition: {x: 0.0268, y: 0}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!43 &1350649828
@@ -17722,7 +17722,7 @@ GameObject:
   - component: {fileID: 1583574200}
   - component: {fileID: 1583574199}
   - component: {fileID: 1583574198}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Plane (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17763,7 +17763,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 505135149}
 --- !u!33 &1583574199
@@ -23288,7 +23288,7 @@ GameObject:
   - component: {fileID: 2132234146}
   - component: {fileID: 2132234145}
   - component: {fileID: 2132234144}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23314,7 +23314,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 676313387}
 --- !u!33 &2132234145

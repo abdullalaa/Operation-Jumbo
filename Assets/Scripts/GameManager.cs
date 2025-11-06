@@ -73,7 +73,12 @@ public class GameManager : MonoBehaviour
 
         if(rb != null )
         {
+            rb.MovePosition(newPos);
             rb.linearVelocity = Vector3.zero;
+        }
+        else
+        {
+            player.position = newPos;
         }
     }
     public void ConnectedToEndPoint(Vector3 pos)

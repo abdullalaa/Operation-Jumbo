@@ -153,7 +153,7 @@ public class PlugWire : MonoBehaviour
         joint.autoConfigureConnectedAnchor = false;
         joint.minDistance = 0f;
         joint.maxDistance = spacing * 0.2f;
-        joint.spring = 200f;
+        joint.spring = 500f;
         joint.damper = 500f;
 
         if (isPlug)
@@ -163,6 +163,10 @@ public class PlugWire : MonoBehaviour
             //    joint.angularZMotion = ConfigurableJointMotion.Locked;
             rb.freezeRotation = true;
             //rb.isKinematic = true;
+        }
+        if (!isPlug)
+        {
+            //col.isTrigger = true;
         }
 
 
@@ -238,7 +242,7 @@ public class PlugWire : MonoBehaviour
         float d1 = Vector3.Distance(newSeg.position, segs[plugIndex - 1].position);
         spring1.minDistance = 0f;
         spring1.maxDistance = 0.1f;
-        spring1.spring = 200f;
+        spring1.spring = 500f;
         spring1.damper = 500f;
 
 
@@ -249,7 +253,7 @@ public class PlugWire : MonoBehaviour
         float d2 = Vector3.Distance(segs[plugIndex].position, newSeg.position);
         plugJoint.minDistance = 0f;
         plugJoint.maxDistance = 0.1f;
-        plugJoint.spring = 200f;
+        plugJoint.spring = 500f;
         plugJoint.damper = 500f;
 
         //SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
@@ -319,7 +323,7 @@ public class PlugWire : MonoBehaviour
 
         //spacing = radius * 1.5f;
         maxRouteLength = CalcRouteLentgh();
-        spacing = maxRouteLength / 90f;
+        spacing = maxRouteLength / 100f;
 
         // create first fixed segment == start
         var first = CreateSeg(startTransform.position);
