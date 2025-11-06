@@ -2,11 +2,14 @@ using UnityEngine;
 
 public class KnockOutGuards : MonoBehaviour
 {
+    public AudioSource audioSource;
+    public AudioClip punch;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Large"))
         {
             Destroy(gameObject);
+            audioSource.PlayOneShot(punch);
             Debug.Log("Knocked Out " + gameObject.name);
         }
 
