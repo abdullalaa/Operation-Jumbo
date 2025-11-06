@@ -323,7 +323,7 @@ public class PlugWire : MonoBehaviour
 
         //spacing = radius * 1.5f;
         maxRouteLength = CalcRouteLentgh();
-        spacing = maxRouteLength / 100f;
+        spacing = maxRouteLength / 120f;
 
         // create first fixed segment == start
         var first = CreateSeg(startTransform.position);

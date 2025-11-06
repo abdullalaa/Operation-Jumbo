@@ -44,7 +44,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!GameManager.instance.LimitPlayerByWire())
         {
-            forwardInput = 0;
+            forwardInput = -0.01f;
             //sideInput = 0;
             return;
         }
