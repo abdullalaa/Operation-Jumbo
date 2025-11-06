@@ -10956,6 +10956,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlugWire
       objectReference: {fileID: 0}
+    - target: {fileID: 718851740760018228, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: player
       value: 
@@ -13869,7 +13873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8345057328213851847, guid: 606840d73ef9f2a43b95312a97e75bdc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.668
       objectReference: {fileID: 0}
     - target: {fileID: 8345057328213851847, guid: 606840d73ef9f2a43b95312a97e75bdc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13877,7 +13881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8345057328213851847, guid: 606840d73ef9f2a43b95312a97e75bdc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.419
       objectReference: {fileID: 0}
     - target: {fileID: 8345057328213851847, guid: 606840d73ef9f2a43b95312a97e75bdc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19551,7 +19555,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 67cd1346a3272cf4eab5529c2c0588f3, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 7198d826112433b4592079dfaf5dfe02, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1708608917
 Transform:
