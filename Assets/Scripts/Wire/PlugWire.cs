@@ -6,6 +6,7 @@ using UnityEditor.ShaderGraph;
 
 //using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlugWire : MonoBehaviour
 {
@@ -32,6 +33,11 @@ public class PlugWire : MonoBehaviour
     public bool isLockedToEndPoint = false;
     public Vector3 lockedPosition;
 
+    [Header("For mesh")]
+    MeshFilter mf;
+    [SerializeField] int radialSegments = 10;
+    [SerializeField] float tubeRadius = 0.1f;
+
     List<Transform> segs = new List<Transform>();
     float spacing;
     float maxRouteLength;
@@ -41,16 +47,25 @@ public class PlugWire : MonoBehaviour
 
     private void Awake()
     {
-        lr = GetComponent<LineRenderer>();
-        lr.positionCount = 0;
-        lr.material = wireMeterial;
+        //lr = GetComponent<LineRenderer>();
+        //lr.positionCount = 0;
+        //lr.material = wireMeterial;
 
-        lr.startWidth = radius * 0.5f;
-        lr.endWidth = radius * 0.5f;
-        lr.useWorldSpace = true;
+        //lr.startWidth = radius * 0.5f;
+        //lr.endWidth = radius * 0.5f;
+        //lr.useWorldSpace = true;
 
-        // allighment
-        lr.alignment = LineAlignment.View;
+        //// allighment
+        //lr.alignment = LineAlignment.View;
+
+        mf = GetComponent<MeshFilter>();
+        if(mf == null) mf = gameObject.AddComponent<MeshFilter>();
+
+        var mr = GetComponent<MeshRenderer>();
+        if(mr == null) mr = gameObject.AddComponent<MeshRenderer>();
+        mr.material = wireMeterial;
+
+        mf.mesh = new Mesh();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -99,11 +114,84 @@ public class PlugWire : MonoBehaviour
     private void LateUpdate()
     {
 
-        lr.positionCount = segs.Count;
-        for (int i = 0; i < segs.Count; i++)
+        //lr.positionCount = segs.Count;
+        //for (int i = 0; i < segs.Count; i++)
+        //{
+        //    lr.SetPosition(i, segs[i].position);
+        //}
+
+        List<Vector3> pts = new List<Vector3>();
+        foreach(var s in segs)
         {
-            lr.SetPosition(i, segs[i].position);
+            pts.Add(s.position);
         }
+
+        mf.mesh = CrerateTubeMesh(pts, tubeRadius, radialSegments);
+        transform.position = Vector3.zero;
+
+    }
+
+    private Mesh CrerateTubeMesh(List<Vector3> points, float r, int rs)
+    {
+        Mesh mesh = new Mesh();
+
+        int ringCount = points.Count;
+        int vertCount = ringCount * rs;
+
+        Vector3[] verts = new Vector3[vertCount];
+        Vector3[] normals = new Vector3[vertCount];
+        int[] tris = new int[(ringCount - 1) * rs * 6];
+
+        for(int i= 0; i< ringCount; i++)
+        {
+            Vector3 center = points[i];
+
+            Vector3 forward = (i == ringCount - 1) ?
+                (center - points[i - 1]).normalized :
+                (points[i+1]-center).normalized;
+
+            Vector3 up = Vector3.Cross(forward, Vector3.up);
+            if (up == Vector3.zero) up = Vector3.Cross(forward, Vector3.right);
+
+            for(int j= 0; j< rs; j++)
+            {
+                float angle = (float)j / rs * Mathf.PI * 2f;
+                Quaternion rot = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, forward);
+                Vector3 normal = (rot * up).normalized;
+
+                int index = i * rs + j;
+                verts[index] = center+ normal*r;
+                normals[index] = normal;
+            }
+        }
+
+        int t = 0;
+        for(int i = 0; i<ringCount-1; i++)
+        {
+            for(int j = 0; j< rs; j++)
+            {
+                int current = i * rs + j;
+                int next = current + rs;
+                int currentPlusOne = i * rs + (j + 1) % rs;
+                int nextPlusOne = currentPlusOne + rs;
+
+                tris[t++] = current;
+                tris[t++] = currentPlusOne;
+                tris[t++] = nextPlusOne;
+
+                tris[t++] = current;
+                tris[t++] = nextPlusOne;
+                tris[t++] = next;
+            }
+        }
+
+        mesh.vertices = verts;
+        mesh.normals = normals;
+        mesh.triangles = tris;
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+
+        return mesh;
     }
 
     private void Update()
@@ -369,9 +457,11 @@ public class PlugWire : MonoBehaviour
         plugJoint.autoConfigureConnectedAnchor = true;
 
         plugJoint.minDistance = 0f;
-        plugJoint.maxDistance = 0.2f;
-        plugJoint.spring = 500f;
-        plugJoint.damper = 500f;
+        plugJoint.maxDistance = 0.1f;
+        plugJoint.spring = 200f;
+        plugJoint.damper = 5000f;
         //Destroy(segs[segs.Count - 1].GetComponent<ConfigurableJoint>());
     }
+
 }
+
