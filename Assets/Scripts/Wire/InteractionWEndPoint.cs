@@ -16,10 +16,17 @@ public class InteractionWEndPoint : MonoBehaviour
     public bool isConnected = false;
     // reference to GameManager
     private GameManager gm;
-
+    private GameObject gamemanager;
+    private bool gameOver;
+    private void Start()
+    {
+        gamemanager = GameObject.Find("GameManager");
+        gameOver = gamemanager.GetComponent<GameManager>().gameOver;
+    }
 
     void Update()
     {
+        if (gameOver) return;
         // find GameManager reference first
         if (gm == null) gm = gm ?? GameManager.instance;
 
