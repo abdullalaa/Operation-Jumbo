@@ -11,6 +11,7 @@ public class PlugWire : MonoBehaviour
     [Header("Reference")]
     [SerializeField] public Transform startTransform;
     [SerializeField] public Transform endTransform;
+    [SerializeField] public Transform attachedPoint;
     [SerializeField] public Transform segments;
     [SerializeField] Transform routeParent;
 
@@ -29,7 +30,7 @@ public class PlugWire : MonoBehaviour
     public bool isLockedToEndPoint = false;
     public Vector3 lockedPosition;
 
-    List<Transform> segs = new List<Transform> ();
+    List<Transform> segs = new List<Transform>();
     float spacing;
     float maxRouteLength;
     int segIndex = 1;
@@ -61,8 +62,9 @@ public class PlugWire : MonoBehaviour
 
         segs.Clear();
 
-        spacing = radius * 1.5f;
+        //spacing = radius * 1.5f;
         maxRouteLength = CalcRouteLentgh();
+        spacing = maxRouteLength / 60f;
 
         // create first fixed segment == start
         var first = CreateSeg(startTransform.position);
@@ -71,7 +73,7 @@ public class PlugWire : MonoBehaviour
         //segs[0].position = startTransform.position;
 
         // create 3 initial spheres
-        for (int i = 1; i < initialSeg-1; i++) 
+        for (int i = 1; i < initialSeg - 1; i++)
         {
             segs.Add(CreateSeg(startTransform.position));
 
@@ -81,64 +83,41 @@ public class PlugWire : MonoBehaviour
         //initial spread
         Vector3 dir = (player.transform.position - startTransform.position).normalized;
 
-        for(int i = 1; i<segs.Count; i++)
+        for (int i = 1; i < segs.Count; i++)
         {
             segs[i].position = startTransform.position + dir * spacing * i;
         }
 
-        for(int i = 1; i < segs.Count-1; i++)
+        for (int i = 1; i < segs.Count - 1; i++)
         {
-            segs[i].GetComponent<ConfigurableJoint>().connectedBody = segs[i-1].GetComponent<Rigidbody>();
-        }
-        Destroy(segs[segs.Count - 1].GetComponent<ConfigurableJoint>());
-    }
+            //segs[i].GetComponent<ConfigurableJoint>().connectedBody = segs[i-1].GetComponent<Rigidbody>();
+            var spring = segs[i].GetComponent<SpringJoint>();
+            spring.connectedBody = segs[i - 1].GetComponent<Rigidbody>();
 
-    Transform CreateSeg(Vector3 position, bool isPlug = false)
-    {
-        GameObject gb = new GameObject($"seg {segIndex}");
+            float d = Vector3.Distance(segs[i].position, segs[i - 1].position);
+            spring.minDistance = 0f;
+            spring.maxDistance = 0.1f;
+            spring.spring = 200f;
+            spring.damper = 10f;
 
-        //GameObject gb = Instantiate(prefab, position, Quaternion.identity, segments);
-        segIndex++;
-        gb.transform.SetParent(segments);
-        gb.transform.position = position;
-
-
-   
-
-        var rb = gb.AddComponent<Rigidbody>();
-        rb.mass = 0.1f;
-        rb.linearDamping = 0.1f;
-        rb.angularDamping = 0.1f;
-
-        var col = gb.AddComponent<SphereCollider>();
-        col.radius = radius;
-        col.excludeLayers = LayerMask.GetMask("Player");
-
-        //configureable joint
-        var joint=  gb.AddComponent<ConfigurableJoint>();
-        joint.xMotion = ConfigurableJointMotion.Limited;
-        joint.yMotion = ConfigurableJointMotion.Limited;
-        joint.zMotion = ConfigurableJointMotion.Limited;
-
-        SoftJointLimit limit = joint.linearLimit;
-        limit.limit = spacing * 1.2f;
-        joint.linearLimit = limit;
-
-        if (isPlug)
-        {
-            joint.angularXMotion = ConfigurableJointMotion.Locked;
-            joint.angularYMotion = ConfigurableJointMotion.Locked;
-            joint.angularZMotion = ConfigurableJointMotion.Locked;
-            rb.freezeRotation = true;
-            //rb.isKinematic = true;
         }
 
-
-
-        return gb.transform;
+        var last = segs[segs.Count - 1];
+        SpringJoint plugJoint = last.GetComponent<SpringJoint>();
+        //plugJoint.connectedAnchor = endTransform.position;
         
+        Rigidbody endRB = endTransform.GetComponent<Rigidbody>();
+        plugJoint.connectedBody = endRB;
+        plugJoint.autoConfigureConnectedAnchor = true;
 
+        plugJoint.minDistance = 0f;
+        plugJoint.maxDistance = 0.2f;
+        plugJoint.spring = 500f;
+        plugJoint.damper = 50f;
+        //Destroy(segs[segs.Count - 1].GetComponent<ConfigurableJoint>());
     }
+
+
 
     private void FixedUpdate()
     {
@@ -154,80 +133,127 @@ public class PlugWire : MonoBehaviour
         //lastRB.linearVelocity = Vector3.zero;
         if (isLockedToEndPoint)
         {
-            lastRB.isKinematic = true; 
+            lastRB.isKinematic = true;
             lastRB.MovePosition(lockedPosition);
             //Vector3 dir=  (lockedPosition - lastRB.position);
             //lastRB.AddForce(dir.normalized * 2000f, ForceMode.Acceleration);
         }
         else
         {
-            //lastRB.MovePosition(endTransform.position);
-            lastRB.isKinematic= false;
-            Vector3 dir = (endTransform.position - lastRB.position);
-            lastRB.AddForce(dir.normalized * 10f, ForceMode.Acceleration);
+
+            lastRB.isKinematic = true;
+            lastRB.MovePosition(endTransform.position);
+            //    Vector3 dir = (endTransform.position - lastRB.position);
+            //    lastRB.AddForce(dir.normalized * 100f, ForceMode.Acceleration);
         }
 
-        
+
 
         Debug.Log("Current Len: " + CalcRealLength() + " Max Len: " + maxRouteLength);
-            
+
 
     }
 
     private void LateUpdate()
     {
-        int smoothAmount = 6;
-        List<Vector3> pts = new List<Vector3>();
+        //int smoothAmount = 6;
+        //List<Vector3> pts = new List<Vector3>();
 
-        lr.positionCount = (segs.Count-2)*smoothAmount+2;
+        //lr.positionCount = (segs.Count - 2) * smoothAmount + 2;
 
-        int idx = 0;
+        //int idx = 0;
 
-        lr.SetPosition(idx++, segs[0].position);
+        //lr.SetPosition(idx++, segs[0].position);
 
-        for (int i = 1; i < segs.Count-1; i++)
+        //for (int i = 1; i < segs.Count - 1; i++)
+        //{
+
+        //    Vector3 prev = segs[i - 1].position;
+        //    Vector3 curr = segs[i].position;
+        //    Vector3 next = segs[i + 1].position;
+
+        //    Vector3 center = (prev + curr + next) / 3f;
+
+        //    for (int s = 1; s < smoothAmount; s++)
+        //    {
+        //        float t = s / (float)(smoothAmount + 1);
+        //        Vector3 smoothedPos = Vector3.Lerp(curr, center, t);
+        //        pts.Add(smoothedPos);
+        //    }
+
+        //}
+
+        //pts.Add(segs[segs.Count - 1].position);
+        //lr.positionCount = pts.Count;
+        //lr.SetPositions(pts.ToArray());
+
+        lr.positionCount = segs.Count;
+        for (int i = 0; i < segs.Count; i++)
         {
-
-            Vector3 prev = segs[i - 1].position;
-            Vector3 curr = segs[i].position;
-            Vector3 next = segs[i+1].position;
-
-            Vector3 center = (prev + curr + next) / 3f;
-
-            for(int s = 1; s < smoothAmount; s++)
-            {
-                float t = s / (float)(smoothAmount + 1);
-                Vector3 smoothedPos = Vector3.Lerp(curr, center, t);
-                pts.Add(smoothedPos);
-            }
-            
+            lr.SetPosition(i, segs[i].position);
         }
+    }
 
-        pts.Add(segs[segs.Count - 1].position);
-        lr.positionCount = pts.Count;
-        lr.SetPositions(pts.ToArray());
+    private void Update()
+    {
+        if (isLockedToEndPoint) return;
+        endTransform.position = attachedPoint.position;
+        segs[segs.Count - 1].GetComponent<SpringJoint>().connectedAnchor = endTransform.position;
     }
 
 
-    private float CalcRouteLentgh()
+    Transform CreateSeg(Vector3 position, bool isPlug = false)
     {
-        float len = 0f;
-        for(int i = 0; i < routeParent.childCount-1; i++)
-        {
-            len += Vector3.Distance(routeParent.GetChild(i).position, routeParent.GetChild(i + 1).position);
-            
-        }
-        return len;
-    }
+        GameObject gb = new GameObject($"seg {segIndex}");
 
-    public float CalcRealLength()
-    {
-        float len = 0f;
-        for(int i= 0; i<segs.Count-1; i++)
+        //GameObject gb = Instantiate(prefab, position, Quaternion.identity, segments);
+        segIndex++;
+        gb.transform.SetParent(segments);
+        gb.transform.position = position;
+
+
+
+
+        var rb = gb.AddComponent<Rigidbody>();
+        rb.mass = 0.02f;
+        rb.linearDamping = 0.1f;
+        rb.angularDamping = 0.1f;
+
+        var col = gb.AddComponent<SphereCollider>();
+        col.radius = radius;
+        col.excludeLayers = LayerMask.GetMask("Player");
+
+        //configureable joint
+        //var joint = gb.AddComponent<ConfigurableJoint>();
+        //joint.xMotion = ConfigurableJointMotion.Limited;
+        //joint.yMotion = ConfigurableJointMotion.Limited;
+        //joint.zMotion = ConfigurableJointMotion.Limited;
+
+        //SoftJointLimit limit = joint.linearLimit;
+        //limit.limit = spacing * 2;
+        //joint.linearLimit = limit;
+
+        SpringJoint joint = gb.AddComponent<SpringJoint>();
+        joint.autoConfigureConnectedAnchor = false;
+        joint.minDistance = 0f;
+        joint.maxDistance = spacing * 0.2f;
+        joint.spring = 200f;
+        joint.damper = 10f;
+
+        if (isPlug)
         {
-            len += Vector3.Distance(segs[i].position, segs[i + 1].position);
+            //    joint.angularXMotion = ConfigurableJointMotion.Locked;
+            //    joint.angularYMotion = ConfigurableJointMotion.Locked;
+            //    joint.angularZMotion = ConfigurableJointMotion.Locked;
+            rb.freezeRotation = true;
+            //rb.isKinematic = true;
         }
-        return len;
+
+
+
+        return gb.transform;
+
+
     }
 
 
@@ -250,23 +276,37 @@ public class PlugWire : MonoBehaviour
         Transform a = segs[0];
         Transform b = segs[segs.Count - 1];
 
-        //Transform a = segs[segs.Count - 2].transform;
-        //Transform b = segs[segs.Count - 1].transform;
+        //// before plug
+        //Transform prev = segs[segs.Count - 2].transform;
+        //Transform plug = segs[segs.Count - 1].transform;
 
+        //float disLst = Vector3.Distance(prev.position, plug.position);
         float disLst = Vector3.Distance(a.position, b.position);
         Vector3 dir = (a.position - b.position).normalized;
         Vector3 pos = b.position + dir * spacing;
 
-        if (disLst <= (spacing*segs.Count) +0.02f)
+        if (disLst <= (spacing * segs.Count) + 0.02f)
         {
             Debug.Log("Not Enough Space");
             return;
         }
-        //if (disLst <= spacing + 0.02f) return;
+        //if (disLst < spacing *1.1f) return;
+        //Vector3 dir = (plug.position - prev.position).normalized;
+        //Vector3 pos = prev.position + dir * spacing;
+
+        SpawnSegmentAt(pos);
 
 
 
+
+        //Destroy(segs[segs.Count-1].GetComponent<ConfigurableJoint>());
+
+    }
+
+    private void SpawnSegmentAt(Vector3 pos)
+    {
         // new chain link
+        Transform plug = segs[segs.Count - 1];
         Transform newSeg = CreateSeg(pos);
         Debug.Log("New seg Position: " + newSeg.position);
 
@@ -275,25 +315,32 @@ public class PlugWire : MonoBehaviour
         segs.Insert(plugIndex, newSeg);
 
         // newSeg > prev seg connect
-        newSeg.GetComponent<ConfigurableJoint>().connectedBody 
-            = segs[plugIndex - 1].GetComponent<Rigidbody>();
+
+        SpringJoint spring1 = newSeg.GetComponent<SpringJoint>();
+        spring1.connectedBody = segs[plugIndex - 1].GetComponent<Rigidbody>();
+
+        float d1 = Vector3.Distance(newSeg.position, segs[plugIndex - 1].position);
+        spring1.minDistance = 0f;
+        spring1.maxDistance = 0.1f;
+        spring1.spring = 200f;
+        spring1.damper = 10f;
+
 
         // plug > newSeg seg connect
-        var plug = segs[plugIndex];
-        var plugJoint = plug.GetComponent<ConfigurableJoint>();
+        var plugJoint = plug.GetComponent<SpringJoint>();
         plugJoint.connectedBody = newSeg.GetComponent<Rigidbody>();
 
-        SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
-        spring.spring = 2000f;
-        spring.damper = 500f;
-        plugJoint.linearLimitSpring = spring;
+        float d2 = Vector3.Distance(segs[plugIndex].position, newSeg.position);
+        plugJoint.minDistance = 0f;
+        plugJoint.maxDistance = 0.1f;
+        plugJoint.spring = 200f;
+        plugJoint.damper = 10f;
 
-
-        //Destroy(segs[segs.Count-1].GetComponent<ConfigurableJoint>());
-
+        //SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
+        //spring.spring = 2000f;
+        //spring.damper = 500f;
+        //plugJoint.linearLimitSpring = spring;
     }
-
-    public float GetMaxLength() { return maxRouteLength; }
 
     public void LockTo(Vector3 pos)
     {
@@ -309,5 +356,31 @@ public class PlugWire : MonoBehaviour
         isLockedToEndPoint = false;
         var lastRB = segs[segs.Count - 1].GetComponent<Rigidbody>();
         lastRB.isKinematic = false;
+    }
+
+    private float CalcRouteLentgh()
+    {
+        float len = 0f;
+        for (int i = 0; i < routeParent.childCount - 1; i++)
+        {
+            len += Vector3.Distance(routeParent.GetChild(i).position, routeParent.GetChild(i + 1).position);
+
+        }
+        return len;
+    }
+
+    public float CalcRealLength()
+    {
+        float len = 0f;
+        for (int i = 0; i < segs.Count - 1; i++)
+        {
+            len += Vector3.Distance(segs[i].position, segs[i + 1].position);
+        }
+        return len;
+    }
+
+    public float GetMaxLength()
+    {
+        return CalcRouteLentgh();
     }
 }
