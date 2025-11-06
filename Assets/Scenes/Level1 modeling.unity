@@ -19802,6 +19802,18 @@ PrefabInstance:
       propertyPath: respawnButton
       value: 
       objectReference: {fileID: 951107529}
+    - target: {fileID: 4821954189789650424, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
+      propertyPath: fastStep
+      value: 
+      objectReference: {fileID: 5718237207066418944}
+    - target: {fileID: 4821954189789650424, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
+      propertyPath: slowStep
+      value: 
+      objectReference: {fileID: 5718237207066418943}
+    - target: {fileID: 4821954189789650424, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
+      propertyPath: mediumStep
+      value: 
+      objectReference: {fileID: 5718237207066418945}
     - target: {fileID: 4867459957250805876, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -23942,6 +23954,21 @@ PrefabInstance:
 --- !u!4 &5718237207066418942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9203501260246750613, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
+  m_PrefabInstance: {fileID: 5718237207066418941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5718237207066418943 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 246218315130087207, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
+  m_PrefabInstance: {fileID: 5718237207066418941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5718237207066418944 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7936823931992651737, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
+  m_PrefabInstance: {fileID: 5718237207066418941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5718237207066418945 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6618131183170152128, guid: c8dfa42af926d324fbc50150a468a311, type: 3}
   m_PrefabInstance: {fileID: 5718237207066418941}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

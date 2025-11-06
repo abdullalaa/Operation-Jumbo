@@ -6660,6 +6660,18 @@ PrefabInstance:
       propertyPath: respawnButton
       value: 
       objectReference: {fileID: 951107529}
+    - target: {fileID: 4821954189789650424, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
+      propertyPath: fastStep
+      value: 
+      objectReference: {fileID: 1883252797}
+    - target: {fileID: 4821954189789650424, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
+      propertyPath: slowStep
+      value: 
+      objectReference: {fileID: 2126306740}
+    - target: {fileID: 4821954189789650424, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
+      propertyPath: mediumStep
+      value: 
+      objectReference: {fileID: 600492097}
     - target: {fileID: 4867459957250805876, guid: fb348fe6f58b00e4a93b8033d4b492e1, type: 3}
       propertyPath: m_Name
       value: GameManager
