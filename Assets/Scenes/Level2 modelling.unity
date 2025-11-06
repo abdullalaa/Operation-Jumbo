@@ -1821,7 +1821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endPointMSG: {fileID: 0}
   player: {fileID: 1482175816}
-  wire: {fileID: 0}
+  wire: {fileID: 1835271246}
   interact: {fileID: 1482175817}
   respawnMenu: {fileID: 0}
   respawnButton: {fileID: 0}
@@ -15365,7 +15365,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1482175809}
     - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+      propertyPath: routeParent
+      value: 
+      objectReference: {fileID: 1566672441}
+    - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: endTransform
+      value: 
+      objectReference: {fileID: 5718237207066418942}
+    - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+      propertyPath: attachedPoint
       value: 
       objectReference: {fileID: 5718237207066418942}
     - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
@@ -15417,6 +15425,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+--- !u!114 &1835271246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+  m_PrefabInstance: {fileID: 1835271245}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf45d9dca6582e42a07e96d84b9509b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1850553962
 PrefabInstance:
   m_ObjectHideFlags: 0

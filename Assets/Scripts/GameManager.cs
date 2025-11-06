@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditorInternal;
 
 public class GameManager : MonoBehaviour
 {
@@ -67,16 +68,12 @@ public class GameManager : MonoBehaviour
         Vector3 dir = (player.position - startPos).normalized;
         Vector3 newPos = startPos + dir*maxLen;
 
+        player.position = newPos;
         Rigidbody rb = player.GetComponent<Rigidbody>();
-        if(rb != null)
+
+        if(rb != null )
         {
-            //rb.MovePosition(newPos);
-            Vector3 toInside = newPos - rb.position;
-            rb.AddForce(toInside.normalized * 60f, ForceMode.Acceleration);
-        }
-        else
-        {
-            player.position = newPos;
+            rb.linearVelocity = Vector3.zero;
         }
     }
     public void ConnectedToEndPoint(Vector3 pos)
@@ -84,14 +81,14 @@ public class GameManager : MonoBehaviour
         wire.LockTo(pos);
     }
 
-    //public void ResetLevel()
-    //{
-    //    //if(wire != null) wire.ResetWire();
-    //    wire.Unlock();
-    //    if(interact != null) interact.ResetConnection();
+    public void ResetLevel()
+    {
+        //if(wire != null) wire.ResetWire();
+        wire.Unlock();
+        if (interact != null) interact.ResetConnection();
 
-    //    Debug.Log("Level reset done");
-    //}
+        Debug.Log("Level reset done");
+    }
 
 
 

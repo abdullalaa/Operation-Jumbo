@@ -1204,9 +1204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee923a0775444242a256dcf6ab34049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnMenu: {fileID: 1520883000}
-  respawnButton: {fileID: 951107529}
-  gameOver: 0
 --- !u!4 &125126580
 Transform:
   m_ObjectHideFlags: 0
@@ -3099,7 +3096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endPointMSG: {fileID: 0}
   player: {fileID: 1482175816}
-  wire: {fileID: 0}
+  wire: {fileID: 2075063744}
   interact: {fileID: 1482175817}
   respawnMenu: {fileID: 0}
   respawnButton: {fileID: 0}
@@ -15721,6 +15718,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!4 &1410237578 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7868388075194454032, guid: 2b1d814a4660ffa4a9ac938cfaf76c8c, type: 3}
+  m_PrefabInstance: {fileID: 729566254}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1425346791
 Mesh:
   m_ObjectHideFlags: 0
@@ -17256,7 +17258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1520882999
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22362,16 +22364,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1482175809}
     - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+      propertyPath: routeParent
+      value: 
+      objectReference: {fileID: 546560369}
+    - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: endTransform
+      value: 
+      objectReference: {fileID: 5718237207066418942}
+    - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+      propertyPath: attachedPoint
       value: 
       objectReference: {fileID: 5718237207066418942}
     - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: startTransform
       value: 
-      objectReference: {fileID: 7868388075194454032, guid: 2b1d814a4660ffa4a9ac938cfaf76c8c, type: 3}
+      objectReference: {fileID: 1410237578}
     - target: {fileID: 1083657375707344261, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.62
+      value: 24.63
       objectReference: {fileID: 0}
     - target: {fileID: 1083657375707344261, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22414,6 +22424,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+--- !u!114 &2075063744 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+  m_PrefabInstance: {fileID: 2075063743}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf45d9dca6582e42a07e96d84b9509b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &2078433733
 Mesh:
   m_ObjectHideFlags: 0
