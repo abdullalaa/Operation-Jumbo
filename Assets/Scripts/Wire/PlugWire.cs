@@ -10,7 +10,7 @@ public class PlugWire : MonoBehaviour
 
     [Header("Reference")]
     [SerializeField] public Transform startTransform;
-    [SerializeField] public Transform endTransform;
+    //[SerializeField] public Transform endTransform;
     [SerializeField] public Transform attachedPoint;
     [SerializeField] public Transform segments;
     [SerializeField] Transform routeParent;
@@ -106,14 +106,14 @@ public class PlugWire : MonoBehaviour
         SpringJoint plugJoint = last.GetComponent<SpringJoint>();
         //plugJoint.connectedAnchor = endTransform.position;
         
-        Rigidbody endRB = endTransform.GetComponent<Rigidbody>();
+        Rigidbody endRB = attachedPoint.GetComponent<Rigidbody>();
         plugJoint.connectedBody = endRB;
         plugJoint.autoConfigureConnectedAnchor = true;
 
         plugJoint.minDistance = 0f;
         plugJoint.maxDistance = 0.2f;
         plugJoint.spring = 500f;
-        plugJoint.damper = 50f;
+        plugJoint.damper = 500f;
         //Destroy(segs[segs.Count - 1].GetComponent<ConfigurableJoint>());
     }
 
@@ -142,7 +142,7 @@ public class PlugWire : MonoBehaviour
         {
 
             lastRB.isKinematic = true;
-            lastRB.MovePosition(endTransform.position);
+            lastRB.MovePosition(attachedPoint.position);
             //    Vector3 dir = (endTransform.position - lastRB.position);
             //    lastRB.AddForce(dir.normalized * 100f, ForceMode.Acceleration);
         }
@@ -197,8 +197,8 @@ public class PlugWire : MonoBehaviour
     private void Update()
     {
         if (isLockedToEndPoint) return;
-        endTransform.position = attachedPoint.position;
-        segs[segs.Count - 1].GetComponent<SpringJoint>().connectedAnchor = endTransform.position;
+        attachedPoint.position = attachedPoint.position;
+        segs[segs.Count - 1].GetComponent<SpringJoint>().connectedAnchor = attachedPoint.position;
     }
 
 
@@ -238,7 +238,7 @@ public class PlugWire : MonoBehaviour
         joint.minDistance = 0f;
         joint.maxDistance = spacing * 0.2f;
         joint.spring = 200f;
-        joint.damper = 10f;
+        joint.damper = 500f;
 
         if (isPlug)
         {
@@ -323,7 +323,7 @@ public class PlugWire : MonoBehaviour
         spring1.minDistance = 0f;
         spring1.maxDistance = 0.1f;
         spring1.spring = 200f;
-        spring1.damper = 10f;
+        spring1.damper = 500f;
 
 
         // plug > newSeg seg connect
