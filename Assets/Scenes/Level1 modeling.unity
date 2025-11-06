@@ -11991,6 +11991,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 48613616824388388, guid: 606840d73ef9f2a43b95312a97e75bdc, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1094423939826626626, guid: 606840d73ef9f2a43b95312a97e75bdc, type: 3}
       propertyPath: m_Name
       value: Punch
