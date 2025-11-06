@@ -15543,6 +15543,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1482175809}
     - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
+      propertyPath: radius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1010130554007280954, guid: 6ce76bbf0ed8b8447be2354807ec0944, type: 3}
       propertyPath: routeParent
       value: 
       objectReference: {fileID: 1566672441}
