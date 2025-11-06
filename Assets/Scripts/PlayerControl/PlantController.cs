@@ -19,7 +19,7 @@ public class PlantController : MonoBehaviour
     private Transform playerTransform;
 
     [SerializeField]
-    private float offsetUnit = 0.8f;
+    private float offsetUnit = 0.7f;
 
     [SerializeField] private Transform playerVisual;
     
@@ -93,17 +93,11 @@ public class PlantController : MonoBehaviour
 
         currentPlayerTag = playerTransform.tag; // Store tag, to see if it changed through gate
 
-        //playerTransform.gameObject.layer = LayerMask.NameToLayer("Hidden"); // Move player to hidden layer
-       // playerVisual.gameObject.layer = LayerMask.NameToLayer("Hidden");
-
     }
 
     // Detach plant from player
     private void DetachFromPlayer()
     {
-       // playerVisual.gameObject.layer = LayerMask.NameToLayer("Water");
-
-        //playerTransform.gameObject.layer = LayerMask.NameToLayer("Player"); // Restore player layer
         isAttached = false;
         playerInRange = false;
         playerTransform = null; // Reset attach point

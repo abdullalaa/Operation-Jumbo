@@ -6666,6 +6666,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1844652803059004974, guid: b82557a2b8112004c9082fda8b9b2551, type: 3}
+      propertyPath: offsetUnit
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1844652803059004974, guid: b82557a2b8112004c9082fda8b9b2551, type: 3}
       propertyPath: playerVisual
       value: 
       objectReference: {fileID: 2023820914}
@@ -14618,7 +14622,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 3fb8c09e685b3694ba99208e1a831fba, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4adffbb5dd0b08c47831191f78b5487d, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1708608917
 Transform:

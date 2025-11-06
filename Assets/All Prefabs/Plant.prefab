@@ -2244,7 +2244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e4c1ac336ea15429efc43bb139f485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetUnit: 1.45
+  offsetUnit: 0.7
+  playerVisual: {fileID: 0}
 --- !u!136 &8534370417327738065
 CapsuleCollider:
   m_ObjectHideFlags: 0
