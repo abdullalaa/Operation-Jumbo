@@ -127,7 +127,7 @@ public class PlugWire : MonoBehaviour
         }
 
         mf.mesh = CrerateTubeMesh(pts, tubeRadius, radialSegments);
-        transform.position = Vector3.zero;
+        //transform.position = Vector3.zero;
 
     }
 
@@ -160,7 +160,8 @@ public class PlugWire : MonoBehaviour
                 Vector3 normal = (rot * up).normalized;
 
                 int index = i * rs + j;
-                verts[index] = center+ normal*r;
+                Vector3 worldPos = center + normal * r;
+                verts[index] = transform.InverseTransformPoint(worldPos);
                 normals[index] = normal;
             }
         }
@@ -240,7 +241,7 @@ public class PlugWire : MonoBehaviour
         joint.autoConfigureConnectedAnchor = false;
         joint.minDistance = 0f;
         joint.maxDistance = spacing * 0.2f;
-        joint.spring = 500f;
+        joint.spring = 200f;
         joint.damper = 500f;
 
         if (isPlug)
@@ -329,7 +330,7 @@ public class PlugWire : MonoBehaviour
         float d1 = Vector3.Distance(newSeg.position, segs[plugIndex - 1].position);
         spring1.minDistance = 0f;
         spring1.maxDistance = 0.1f;
-        spring1.spring = 500f;
+        spring1.spring = 200f;
         spring1.damper = 500f;
 
 
@@ -340,7 +341,7 @@ public class PlugWire : MonoBehaviour
         float d2 = Vector3.Distance(segs[plugIndex].position, newSeg.position);
         plugJoint.minDistance = 0f;
         plugJoint.maxDistance = 0.1f;
-        plugJoint.spring = 500f;
+        plugJoint.spring = 200f;
         plugJoint.damper = 500f;
 
         //SoftJointLimitSpring spring = plugJoint.linearLimitSpring;
@@ -443,8 +444,8 @@ public class PlugWire : MonoBehaviour
             float d = Vector3.Distance(segs[i].position, segs[i - 1].position);
             spring.minDistance = 0f;
             spring.maxDistance = 0.1f;
-            spring.spring = 500f;
-            spring.damper = 10f;
+            spring.spring = 200f;
+            spring.damper = 500f;
 
         }
 
@@ -459,7 +460,7 @@ public class PlugWire : MonoBehaviour
         plugJoint.minDistance = 0f;
         plugJoint.maxDistance = 0.1f;
         plugJoint.spring = 200f;
-        plugJoint.damper = 5000f;
+        plugJoint.damper = 500f;
         //Destroy(segs[segs.Count - 1].GetComponent<ConfigurableJoint>());
     }
 
