@@ -33,25 +33,27 @@ public class PlantController : MonoBehaviour
         {
             animator?.SetBool("PlantWiggle", true); // Play animation to attract attention
 
-            if (Input.GetKeyDown(KeyCode.E)) // Attach player when e is pressed
-            {
-                AttachToPlayer();
-            }
+            //if (Input.GetKeyDown(KeyCode.E) && playerTransform != null) // Attach player when e is pressed
+            //{
+            //    AttachToPlayer();
+
+            //    transform.position = GetAttachPosition();
+            //    transform.rotation = playerTransform.rotation * rotationOffset;
+            //}
         }
         else // When plant is attached
         {
-            // Drop plant when e is pressed or tag has changed (going through gate)
-            if (Input.GetKeyDown(KeyCode.E) || (playerTransform != null && playerTransform.tag != currentPlayerTag))
-            {
-                DetachFromPlayer();
-            }
+            //// Drop plant when e is pressed or tag has changed (going through gate)
+            //if (Input.GetKeyDown(KeyCode.E) || (playerTransform != null && playerTransform.tag != currentPlayerTag))
+            //{
+            //    DetachFromPlayer();
+            //}
 
-            // Follow player at attach position
-            if (playerTransform != null)
-            {
-                transform.position = GetAttachPosition();
-                transform.rotation = playerTransform.rotation * rotationOffset;
-            }
+            //// Follow player at attach position
+            //if (playerTransform != null)
+            //{
+                
+            //}
         }
     }
 
@@ -59,14 +61,7 @@ public class PlantController : MonoBehaviour
     {
         if (playerTransform == null) return transform.position;
 
-        // Get the forward direction of the player
-        Vector3 forward = playerTransform.forward;
-
-        // Calculate the edge offset
-        Vector3 offset = forward * offsetUnit;
-
-        // Attach at the edge in front of the player
-        Vector3 attachPos = playerTransform.position + offset;
+        Vector3 attachPos = playerTransform.position + (playerTransform.rotation * (rotationOffset * Vector3.forward * offsetUnit));
 
         // Set Y position to always 0.001 (Since origin of player has different y)
         attachPos.y = 0.001f;
