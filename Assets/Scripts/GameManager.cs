@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 //using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,32 +54,67 @@ public class GameManager : MonoBehaviour
     }
 
     // prevent the player form moving further than the total wire length
-    void LimitPlayerByWire()
+    //public void LimitPlayerByWire()
+    //{
+    //    if (wire == null || player == null) return;
+    //    if (wire.isLockedToEndPoint) return;
+
+    //    float maxLen = wire.GetMaxLength();
+    //    float realLen = wire.CalcRealLength();
+    //    if (realLen <= maxLen) return;
+
+
+    //    Vector3 startPos = wire.startTransform.position;
+    //    Vector3 dir = (player.position - startPos).normalized;
+    //    Vector3 newPos = startPos + dir*maxLen;
+
+    //    player.position = newPos;
+    //    Rigidbody rb = player.GetComponent<Rigidbody>();
+
+    //    if(rb != null )
+    //    {
+    //        rb.MovePosition(newPos);
+    //        rb.linearVelocity = Vector3.zero;
+    //    }
+    //    else
+    //    {
+    //        player.position = newPos;
+    //    }
+    //}
+
+    public bool LimitPlayerByWire()
     {
-        if (wire == null || player == null) return;
-        if (wire.isLockedToEndPoint) return;
+        if (wire == null || player == null) return true;
+        if(wire.isLockedToEndPoint) return true;
 
         float maxLen = wire.GetMaxLength();
         float realLen = wire.CalcRealLength();
-        if (realLen <= maxLen) return;
-
-
+        if(realLen <= maxLen) return true;
         Vector3 startPos = wire.startTransform.position;
-        Vector3 dir = (player.position - startPos).normalized;
-        Vector3 newPos = startPos + dir*maxLen;
+        Vector3 toPlayer = player.position-startPos;
 
-        player.position = newPos;
-        Rigidbody rb = player.GetComponent<Rigidbody>();
+        Vector3 fwd = player.forward;
 
-        if(rb != null )
+        float forwardDist = Vector3.Dot(toPlayer, fwd);
+
+        if(forwardDist > maxLen)
         {
-            rb.MovePosition(newPos);
-            rb.linearVelocity = Vector3.zero;
+            Vector3 prep = toPlayer - fwd * forwardDist;
+            Vector3 newPos= startPos + fwd * maxLen + prep;
+
+            Rigidbody rb = GetComponent<Rigidbody>();
+            if(rb != null)
+            {
+                rb.MovePosition(newPos);
+                rb.linearVelocity = Vector3.zero;
+            }
+            else {
+                player.position = newPos;
+            }
         }
-        else
-        {
-            player.position = newPos;
-        }
+
+        return false;
+
     }
     public void ConnectedToEndPoint(Vector3 pos)
     {
