@@ -13643,8 +13643,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!64 &1073693209
-MeshCollider:
+--- !u!65 &1073693209
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -13661,10 +13661,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: -1
-  m_Mesh: {fileID: -5966198621110897880, guid: 8ac5959c85f8f76449c4a371261ea31c, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.009000004, y: 0.00078266993, z: 0.020999998}
+  m_Center: {x: -0.0044999947, y: -0.0000000024741822, z: 0.010500002}
 --- !u!64 &1073693210
 MeshCollider:
   m_ObjectHideFlags: 0
