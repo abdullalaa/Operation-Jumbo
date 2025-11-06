@@ -65,6 +65,9 @@ public class PlugWire : MonoBehaviour
         if(mr == null) mr = gameObject.AddComponent<MeshRenderer>();
         mr.material = wireMeterial;
 
+        var mc = GetComponent<MeshCollider>();
+        if (mc == null) mc = gameObject.AddComponent<MeshCollider>();
+
         mf.mesh = new Mesh();
     }
 
