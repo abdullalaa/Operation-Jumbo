@@ -7,7 +7,9 @@ public class InteractionWEndPoint : MonoBehaviour
     [Header("Wire Interaction Settings")]
     [SerializeField] Transform wireEnd;
 
-    
+    //waittimer
+    private float waitTime = 0.5f;
+    private float time = 0;
     // check using script instead of tag
     private PlugEndPoint currentEndPoint;
     // check player is inside trigger range and able to press F
@@ -16,7 +18,7 @@ public class InteractionWEndPoint : MonoBehaviour
     public bool isConnected = false;
     // reference to GameManager
     private GameManager gm;
-    private GameObject gamemanager;
+    
 
     void Update()
     {
@@ -33,11 +35,14 @@ public class InteractionWEndPoint : MonoBehaviour
         {
             if(currentEndPoint != null)
             {
-                gm.ConnectedToEndPoint(currentEndPoint.transform.position);
                
-                isConnected = true;
-                gm.OnWireConnected();
-                gm.ShowHint(false);
+
+              gm.ConnectedToEndPoint(currentEndPoint.transform.position);
+
+              isConnected = true;
+              gm.OnWireConnected();
+              gm.ShowHint(false);
+               
 
             }
         }
