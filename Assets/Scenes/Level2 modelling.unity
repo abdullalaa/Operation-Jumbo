@@ -980,7 +980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8283348267498804238, guid: e81d8ba745928654d986826f4313fde9, type: 3}
       propertyPath: playerLayer.m_Bits
-      value: 16
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14618,7 +14618,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 99e5e7104f610634cb912c982c9f3a36, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 3fb8c09e685b3694ba99208e1a831fba, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1708608917
 Transform:
@@ -18130,7 +18130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8283348267498804238, guid: e81d8ba745928654d986826f4313fde9, type: 3}
       propertyPath: playerLayer.m_Bits
-      value: 16
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
