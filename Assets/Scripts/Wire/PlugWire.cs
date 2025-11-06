@@ -15,7 +15,6 @@ public class PlugWire : MonoBehaviour
     //[SerializeField] public Transform endTransform;
     [SerializeField] public Transform attachedPoint;
     [SerializeField] public Transform segments;
-    [SerializeField] public Transform capsuleParent;
     [SerializeField] Transform routeParent;
 
     [SerializeField] GameObject player;
