@@ -85,8 +85,8 @@ public class PlugWire : MonoBehaviour
 
             lastRB.isKinematic = true;
             lastRB.MovePosition(attachedPoint.position);
-            //    Vector3 dir = (endTransform.position - lastRB.position);
-            //    lastRB.AddForce(dir.normalized * 100f, ForceMode.Acceleration);
+            //    Vector3 dir = (attachedPoint.position - lastRB.position);
+            //lastRB.AddForce(dir.normalized * 2000f, ForceMode.Acceleration);
         }
 
 
