@@ -20,6 +20,8 @@ public class PlantController : MonoBehaviour
 
     [SerializeField]
     private float offsetUnit = 0.8f;
+
+    [SerializeField] private Transform playerVisual;
     
 
     void Start()
@@ -33,27 +35,28 @@ public class PlantController : MonoBehaviour
         {
             animator?.SetBool("PlantWiggle", true); // Play animation to attract attention
 
-            //if (Input.GetKeyDown(KeyCode.E) && playerTransform != null) // Attach player when e is pressed
-            //{
-            //    AttachToPlayer();
+            if (Input.GetKeyDown(KeyCode.E) && playerTransform != null) // Attach player when e is pressed
+            {
+                AttachToPlayer();
 
-            //    transform.position = GetAttachPosition();
-            //    transform.rotation = playerTransform.rotation * rotationOffset;
-            //}
+                transform.position = GetAttachPosition();
+                transform.rotation = playerTransform.rotation * rotationOffset;
+            }
         }
         else // When plant is attached
         {
-            //// Drop plant when e is pressed or tag has changed (going through gate)
-            //if (Input.GetKeyDown(KeyCode.E) || (playerTransform != null && playerTransform.tag != currentPlayerTag))
-            //{
-            //    DetachFromPlayer();
-            //}
+            // Drop plant when e is pressed or tag has changed (going through gate)
+            if (Input.GetKeyDown(KeyCode.E) || (playerTransform != null && playerTransform.tag != currentPlayerTag))
+            {
+                DetachFromPlayer();
+            }
 
-            //// Follow player at attach position
-            //if (playerTransform != null)
-            //{
-                
-            //}
+            // Follow player at attach position
+            if (playerTransform != null)
+            {
+                transform.position = GetAttachPosition();
+                transform.rotation = playerTransform.rotation * rotationOffset;
+            }
         }
     }
 
@@ -82,17 +85,23 @@ public class PlantController : MonoBehaviour
 
         currentPlayerTag = playerTransform.tag; // Store tag, to see if it changed through gate
 
-        playerTransform.gameObject.layer = LayerMask.NameToLayer("Hidden"); // Move player to hidden layer
+        //playerTransform.gameObject.layer = LayerMask.NameToLayer("Hidden"); // Move player to hidden layer
+        playerVisual.gameObject.layer = LayerMask.NameToLayer("Hidden");
+
     }
 
     // Detach plant from player
     private void DetachFromPlayer()
     {
-        playerTransform.gameObject.layer = LayerMask.NameToLayer("Player"); // Restore player layer
+        playerVisual.gameObject.layer = LayerMask.NameToLayer("Water");
+
+        //playerTransform.gameObject.layer = LayerMask.NameToLayer("Player"); // Restore player layer
         isAttached = false;
         playerInRange = false;
         playerTransform = null; // Reset attach point
         animator?.SetBool("PlantWiggle", false);
+
+
     }
 
     // Check if player is in range and if it is medium player to use the attach position from player
