@@ -35,12 +35,9 @@ public class PlantController : MonoBehaviour
         {
             animator?.SetBool("PlantWiggle", true); // Play animation to attract attention
 
-            if (Input.GetKeyDown(KeyCode.E) && playerTransform != null) // Attach player when e is pressed
+            if (Input.GetKeyDown(KeyCode.E)) // Attach player when e is pressed
             {
                 AttachToPlayer();
-
-                transform.position = GetAttachPosition();
-                transform.rotation = playerTransform.rotation * rotationOffset;
             }
         }
         else // When plant is attached
@@ -61,10 +58,21 @@ public class PlantController : MonoBehaviour
     }
 
     private Vector3 GetAttachPosition()
-    {
-        if (playerTransform == null) return transform.position;
+    { 
 
-        Vector3 attachPos = playerTransform.position + (playerTransform.rotation * (rotationOffset * Vector3.forward * offsetUnit));
+        if (playerTransform == null) return transform.position;
+        Collider playerCollider = playerTransform.GetComponent<Collider>();
+
+        if (playerCollider == null) return playerTransform.position;
+
+        // Get the forward direction of the player
+        Vector3 forward = playerTransform.forward;
+
+        // Calculate the edge offset
+        Vector3 offset = forward * (playerCollider.bounds.extents.z + offsetUnit);
+
+        // Attach at the edge in front of the player
+        Vector3 attachPos = playerTransform.position + offset;
 
         // Set Y position to always 0.001 (Since origin of player has different y)
         attachPos.y = 0.001f;
@@ -86,14 +94,14 @@ public class PlantController : MonoBehaviour
         currentPlayerTag = playerTransform.tag; // Store tag, to see if it changed through gate
 
         //playerTransform.gameObject.layer = LayerMask.NameToLayer("Hidden"); // Move player to hidden layer
-        playerVisual.gameObject.layer = LayerMask.NameToLayer("Hidden");
+       // playerVisual.gameObject.layer = LayerMask.NameToLayer("Hidden");
 
     }
 
     // Detach plant from player
     private void DetachFromPlayer()
     {
-        playerVisual.gameObject.layer = LayerMask.NameToLayer("Water");
+       // playerVisual.gameObject.layer = LayerMask.NameToLayer("Water");
 
         //playerTransform.gameObject.layer = LayerMask.NameToLayer("Player"); // Restore player layer
         isAttached = false;
