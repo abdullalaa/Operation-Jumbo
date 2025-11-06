@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevel()
     {
-        //if(wire != null) wire.ResetWire();
+        if(wire != null) wire.ResetWire();
         wire.Unlock();
         if (interact != null) interact.ResetConnection();
 

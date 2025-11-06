@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph;
+
 //using UnityEditorInternal;
 using UnityEngine;
 
@@ -13,6 +15,7 @@ public class PlugWire : MonoBehaviour
     //[SerializeField] public Transform endTransform;
     [SerializeField] public Transform attachedPoint;
     [SerializeField] public Transform segments;
+    [SerializeField] public Transform capsuleParent;
     [SerializeField] Transform routeParent;
 
     [SerializeField] GameObject player;
@@ -96,36 +99,6 @@ public class PlugWire : MonoBehaviour
 
     private void LateUpdate()
     {
-        //int smoothAmount = 6;
-        //List<Vector3> pts = new List<Vector3>();
-
-        //lr.positionCount = (segs.Count - 2) * smoothAmount + 2;
-
-        //int idx = 0;
-
-        //lr.SetPosition(idx++, segs[0].position);
-
-        //for (int i = 1; i < segs.Count - 1; i++)
-        //{
-
-        //    Vector3 prev = segs[i - 1].position;
-        //    Vector3 curr = segs[i].position;
-        //    Vector3 next = segs[i + 1].position;
-
-        //    Vector3 center = (prev + curr + next) / 3f;
-
-        //    for (int s = 1; s < smoothAmount; s++)
-        //    {
-        //        float t = s / (float)(smoothAmount + 1);
-        //        Vector3 smoothedPos = Vector3.Lerp(curr, center, t);
-        //        pts.Add(smoothedPos);
-        //    }
-
-        //}
-
-        //pts.Add(segs[segs.Count - 1].position);
-        //lr.positionCount = pts.Count;
-        //lr.SetPositions(pts.ToArray());
 
         lr.positionCount = segs.Count;
         for (int i = 0; i < segs.Count; i++)
@@ -327,7 +300,7 @@ public class PlugWire : MonoBehaviour
         return CalcRouteLentgh();
     }
 
-    void ResetWire()
+    public void ResetWire()
     {
         isLockedToEndPoint = false;
         lockedPosition = Vector3.zero;
@@ -346,7 +319,7 @@ public class PlugWire : MonoBehaviour
 
         //spacing = radius * 1.5f;
         maxRouteLength = CalcRouteLentgh();
-        spacing = maxRouteLength / 60f;
+        spacing = maxRouteLength / 90f;
 
         // create first fixed segment == start
         var first = CreateSeg(startTransform.position);
@@ -379,7 +352,7 @@ public class PlugWire : MonoBehaviour
             float d = Vector3.Distance(segs[i].position, segs[i - 1].position);
             spring.minDistance = 0f;
             spring.maxDistance = 0.1f;
-            spring.spring = 200f;
+            spring.spring = 500f;
             spring.damper = 10f;
 
         }
