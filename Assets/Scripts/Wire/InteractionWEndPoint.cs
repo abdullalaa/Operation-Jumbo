@@ -12,7 +12,7 @@ public class InteractionWEndPoint : MonoBehaviour
     private float time = 0;
     // check using script instead of tag
     private PlugEndPoint currentEndPoint;
-    // check player is inside trigger range and able to press F
+    // check player is inside trigger range and able to press E
     private bool canPress = false;
     // check wire is already connected or not
     public bool isConnected = false;
@@ -30,8 +30,8 @@ public class InteractionWEndPoint : MonoBehaviour
         // find GameManager reference first
         if (gm == null) gm = gm ?? GameManager.instance;
 
-        // player presses F to connect wire to endpoint
-        if (canPress && Input.GetKeyDown(KeyCode.F))
+        // player presses E to connect wire to endpoint
+        if (canPress && Input.GetKeyDown(KeyCode.E))
         {
             if(currentEndPoint != null)
             {
@@ -41,7 +41,7 @@ public class InteractionWEndPoint : MonoBehaviour
 
               isConnected = true;
               gm.OnWireConnected();
-              gm.ShowHint(false);
+              gm.ShowHint("wire", false);
                
 
             }
@@ -55,7 +55,7 @@ public class InteractionWEndPoint : MonoBehaviour
         if (endpoint != null) { 
             canPress = true;
             currentEndPoint = endpoint;
-            gm.ShowHint(true);
+            gm.ShowHint("wire", true);
         }
     }
 
@@ -67,7 +67,7 @@ public class InteractionWEndPoint : MonoBehaviour
         {
             canPress = false;
             currentEndPoint = null;
-            gm.ShowHint(false);
+            gm.ShowHint("wire", false);
         }
     }
 

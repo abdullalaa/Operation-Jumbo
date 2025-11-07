@@ -84,6 +84,7 @@ public class PlayerControl : MonoBehaviour
 
         if (floating)
         {
+            GameManager.instance.ShowHint("float", true); // Show floating controls message
             // Apply impulse forces to move the player when floating based on input given by the keyboard
             rb.AddForce(transform.forward * (forwardInput / 20), ForceMode.Impulse);
             rb.AddForce(transform.right * (sideInput / 20), ForceMode.Impulse);
@@ -103,7 +104,7 @@ public class PlayerControl : MonoBehaviour
                 rb.AddForce(Vector3.down * 0.5f, ForceMode.Impulse);
             }
 
-            else if (transform.position.y < 1.5)
+            if (transform.position.y < 1.5)
             {
                 // If player is below minimum height, set position to minimum height and apply small upward force
                 transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
@@ -114,6 +115,8 @@ public class PlayerControl : MonoBehaviour
         
         else
         {
+            GameManager.instance.ShowHint("float", false); // Hide floating controls message
+
             // Move the player directly based on input given by the keyboard when not floating
             transform.Translate(Vector3.forward * Time.deltaTime * speed * forwardInput);
             transform.Translate(Vector3.right * Time.deltaTime * speed * sideInput);

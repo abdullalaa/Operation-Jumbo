@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour
     //singletone instance for global access
     public static GameManager instance;
 
-    [Header ("Hint Message")]
-    [SerializeField] GameObject endPointMSG;
+    [Header ("Hint Messages")]
+    [SerializeField] GameObject plantUI;
+    [SerializeField] GameObject doorUI;
+    [SerializeField] GameObject wireUI;
+    [SerializeField] GameObject floatUI;
 
     [Header("Gameplay Reference")]
     [SerializeField] Transform player;
@@ -141,10 +144,25 @@ public class GameManager : MonoBehaviour
         Debug.Log("Wire Connected!");
     }
 
-    // show or hide "Press F Key" UI hint for endpoint
-    public void ShowHint(bool isShow)
+    // show or hide UI hint for interactive game objects
+    public void ShowHint(string message, bool active)
     {
-        endPointMSG.SetActive(isShow);
+        switch(message)
+        {
+            case "plant":
+                plantUI.SetActive(active);
+                break;
+            case "door":
+                doorUI.SetActive(active);
+                break;
+            case "wire":
+                wireUI.SetActive(active);
+                break;
+            case "float":
+                floatUI.SetActive(active);
+                break;
+
+        }
     }
 
     private void OnRespawnButtonClicked()

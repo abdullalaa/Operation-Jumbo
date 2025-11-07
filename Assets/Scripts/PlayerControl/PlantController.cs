@@ -34,6 +34,7 @@ public class PlantController : MonoBehaviour
         if (!isAttached && playerInRange) // When plant is not attached & player is within collider
         {
             animator?.SetBool("PlantWiggle", true); // Play animation to attract attention
+            GameManager.instance.ShowHint("plant", true); // Show hint to attach plant
 
             if (Input.GetKeyDown(KeyCode.E)) // Attach player when e is pressed
             {
@@ -102,6 +103,7 @@ public class PlantController : MonoBehaviour
         playerInRange = false;
         playerTransform = null; // Reset attach point
         animator?.SetBool("PlantWiggle", false);
+        GameManager.instance.ShowHint("plant", false);
 
 
     }
@@ -124,6 +126,7 @@ public class PlantController : MonoBehaviour
             playerInRange = false;
             animator?.SetBool("PlantWiggle", false);
             playerTransform = null;
+            GameManager.instance.ShowHint("plant", false);
         }
     }
 }
