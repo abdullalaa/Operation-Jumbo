@@ -4552,7 +4552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1140130996403023319, guid: 8ea5cac85e1f9b6418f58e4e21a36c28, type: 3}
       propertyPath: m_text
-      value: Just background cheese
+      value: Still background cheese
       objectReference: {fileID: 0}
     - target: {fileID: 7214478812312722182, guid: 8ea5cac85e1f9b6418f58e4e21a36c28, type: 3}
       propertyPath: m_LocalPosition.x
